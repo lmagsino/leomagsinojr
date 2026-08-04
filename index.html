@@ -14,8 +14,8 @@
     --paper-raised:#FCFAF5;
     --ink:#221F1A;
     --ink-dim:#6B6357;
-    --accent:#96702A;
-    --accent-soft:#C9A464;
+    --accent:#7E5D1F;
+    --accent-soft:#B79A62;
     --line:#DCD4C1;
     --line-strong:#C9BFA8;
 
@@ -45,6 +45,8 @@
     color:var(--ink);
     font-family:'Newsreader', Georgia, serif;
     font-size:var(--t-body);
+    font-variation-settings:'opsz' 16;
+    font-weight:430;
     font-variant-numeric:tabular-nums;
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
@@ -96,6 +98,7 @@
     margin-top:var(--s6);
     max-width:52ch;
     font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
     color:var(--ink-dim);
   }
   .hero-sub strong{color:var(--ink); font-weight:600;}
@@ -166,6 +169,8 @@
   }
   section > .wrap > p.lead{
     max-width:58ch;
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
     color:var(--ink-dim);
     margin-bottom:var(--s8);
   }
@@ -470,8 +475,9 @@
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
     font-size:var(--t-h2);
+    font-style:italic;
     font-variation-settings:'opsz' 40;
-    font-weight:600;
+    font-weight:500;
     letter-spacing:-0.008em;
     line-height:1.25;
     max-width:34ch;
