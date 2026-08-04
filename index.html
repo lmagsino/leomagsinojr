@@ -117,9 +117,14 @@
     letter-spacing:-0.012em;
     text-wrap:balance;
   }
+  /* No reading cap: the line is one sentence pair, and 52ch forced a break
+     that split "fintech, healthtech, e-commerce" across lines. A long single
+     line is fine — the measure rule exists so the eye can find the next line,
+     and there isn't one. balance evens things when a narrow screen does wrap. */
   .hero-sub{
     margin-top:var(--s6);
-    max-width:52ch;
+    max-width:none;
+    text-wrap:balance;
     font-size:var(--t-lead);
     font-variation-settings:'opsz' 18;
     color:var(--ink-dim);
