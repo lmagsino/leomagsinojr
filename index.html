@@ -229,8 +229,9 @@
   .site-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--s4);}
   .site-grid.agency{grid-template-columns:repeat(3, 1fr);}
   .site-grid + .group-label{margin-top:var(--s8);}
-  /* the lead paragraph used to hold this gap open */
+  /* these gaps were held open by the h2 and lead that used to sit here */
   section h2 + .group-label{margin-top:var(--s8);}
+  .eyebrow + .site-grid{margin-top:var(--s8);}
   .site-card{
     display:flex;
     flex-direction:column;
@@ -535,9 +536,6 @@
 <section id="products">
   <div class="wrap reveal">
     <div class="eyebrow">Products I've built</div>
-    <h2>Nine products. Most of them still live.</h2>
-
-    <div class="group-label">Products</div>
     <div class="site-grid">
       <a class="site-card startup" href="https://www.shiftcare.com" target="_blank" rel="noopener">
         <div class="site-chrome"><span class="url">shiftcare.com</span></div>
