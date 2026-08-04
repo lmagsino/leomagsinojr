@@ -371,44 +371,6 @@
   }
   .skill-cat .items{color:var(--ink-dim); line-height:1.85;}
 
-  /* ---------- PROJECTS ---------- */
-  .proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--s4);}
-  .proj-card{
-    border:1px solid var(--line);
-    padding:var(--s6);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    gap:var(--s4);
-    text-decoration:none;
-    color:inherit;
-    background:var(--paper-raised);
-    transition:border-color .3s ease;
-  }
-  .proj-card:hover{border-color:var(--accent);}
-  .proj-card .status{
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-micro);
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--accent);
-    align-self:flex-start;
-  }
-  .proj-card .name{
-    font-size:var(--t-title);
-    font-weight:600;
-    letter-spacing:-0.012em;
-  }
-  .proj-card .desc{font-size:var(--t-body); color:var(--ink-dim); margin-top:var(--s2);}
-  .proj-card .visit{
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-micro);
-    letter-spacing:0.06em;
-    color:var(--ink-dim);
-    transition:color .2s ease;
-  }
-  .proj-card:hover .visit{color:var(--accent);}
-  .proj-note{margin-top:var(--s4); font-size:var(--t-meta); color:var(--ink-dim);}
 
   /* ---------- EDUCATION ---------- */
   .edu-row{
@@ -475,7 +437,7 @@
   }
   @media (max-width:640px){
     header.hero{padding:var(--s16) 0 var(--s12);}
-    .skill-grid, .proj-grid,
+    .skill-grid,
     .site-grid, .site-grid.agency{grid-template-columns:1fr;}
     .ai-panel{flex-direction:column;}
     .stat-row{flex-direction:column;}
@@ -633,6 +595,30 @@
         </div>
       </a>
     </div>
+
+    <div class="group-label">Side projects</div>
+    <div class="site-grid">
+      <a class="site-card side" href="https://racecast.run" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/racecast.jpg" alt="RaceCast preview" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">RaceCast</div>
+          <div class="tag">Live</div>
+          <div class="site-co">Built solo</div>
+          <p class="site-desc">Predicts your race finish time from a recent result &mdash; 5K to marathon, no sign-up.</p>
+          <div class="visit">Visit site ↗</div>
+        </div>
+      </a>
+      <a class="site-card side" href="https://github.com/lmagsino/run-coach-ai" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/runcoach.jpg" alt="RunCoach AI repository" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">RunCoach AI</div>
+          <div class="tag">In progress</div>
+          <div class="site-co">Built solo</div>
+          <p class="site-desc">A chat-first AI running coach that reasons across Strava and Garmin via MCP &mdash; no dashboards, just answers. Backend and MCP plumbing are built and tested; frontend and live account integration are next.</p>
+          <div class="visit">View on GitHub ↗</div>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -681,31 +667,6 @@
 </section>
 
 
-<section id="projects">
-  <div class="wrap reveal">
-    <div class="eyebrow">Side projects</div>
-    <h2>Building now.</h2>
-    <div class="proj-grid">
-      <a class="proj-card live" href="https://racecast.run" target="_blank" rel="noopener">
-        <div class="status">In progress</div>
-        <div>
-          <div class="name">RaceCast</div>
-          <div class="desc">Predicts your race finish time from a recent result — 5K to marathon, no sign-up.</div>
-        </div>
-        <div class="visit">racecast.run ↗</div>
-      </a>
-      <a class="proj-card live" href="https://github.com/lmagsino/run-coach-ai" target="_blank" rel="noopener">
-        <div class="status">In progress</div>
-        <div>
-          <div class="name">RunCoach AI</div>
-          <div class="desc">A chat-first AI running coach that reasons across Strava and Garmin via MCP — no dashboards, just answers.</div>
-        </div>
-        <div class="visit">View on GitHub ↗</div>
-      </a>
-    </div>
-    <p class="proj-note">RunCoach AI is a work in progress — backend and MCP plumbing are built and tested, frontend and live account integration are next.</p>
-  </div>
-</section>
 
 <section id="education">
   <div class="wrap reveal">
