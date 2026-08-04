@@ -340,11 +340,18 @@
   .site-card.nolink:hover{border-color:var(--line);}
 
   /* ---------- AI SECTION ---------- */
-  .ai-panel{display:flex; gap:var(--s8); align-items:flex-start; flex-wrap:wrap;}
-  .ai-panel .copy{flex:1; min-width:280px;}
-  .ai-panel .copy p{color:var(--ink-dim); max-width:52ch;}
+  /* prose at reading width, tools as a row beneath — three paragraphs beside a
+     short panel left a large hole to the right */
+  .ai-panel{display:block;}
+  .ai-panel .copy p{color:var(--ink-dim);}
   .ai-panel .copy p + p{margin-top:var(--s3);}
-  .tool-tags{display:flex; flex-direction:column; gap:var(--s2); min-width:200px;}
+  .tool-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--s2);
+    margin-top:var(--s6);
+  }
+  .tool-tag{flex:1 1 auto; min-width:180px;}
   .tool-tag{
     border:1px solid var(--line-strong);
     padding:var(--s3) var(--s3);
@@ -650,15 +657,23 @@
     <h2>AI is leverage. I decide where it points.</h2>
     <div class="ai-panel">
       <div class="copy">
-        <p>Claude and GitHub Copilot aren't a novelty bolted onto my workflow — they're how I plan, write, and
-        review code every day. They take the boilerplate and the exploration off my plate so my judgment goes
-        where it actually matters: architecture, trade-offs, and the calls that are expensive to get wrong.</p>
-        <p>Thirteen years of building products taught me what "good" looks like — for the code and for the
-        business behind it. AI didn't replace that judgment. It just closed the gap between having it and shipping it.</p>
+        <p>Claude and GitHub Copilot aren't bolted onto my workflow &mdash; they are the workflow.
+        They take the boilerplate and the exploration, so my attention goes to the decisions that
+        are expensive to reverse: architecture, data models, and where the seams between services
+        belong.</p>
+        <p>What they don't do is decide. An agent will build the wrong thing very quickly and very
+        cheerfully. Knowing which thing is worth building &mdash; and which shortcut turns into next
+        year's migration &mdash; is the part experience buys, and it is still mine.</p>
+        <p>In practice that means the spec gets written before the code, work moves in phases small
+        enough to verify, and every diff gets read as though someone else wrote it. RunCoach AI is
+        that method in the open: a design doc and feature spec committed ahead of implementation,
+        phases tracked in the repo, tests and CI wired in &mdash; and Claude listed as a
+        contributor, because it was one.</p>
       </div>
       <div class="tool-tags">
-        <div class="tool-tag">Claude <span class="on">daily</span></div>
-        <div class="tool-tag">GitHub Copilot <span class="on">daily</span></div>
+        <div class="tool-tag">Claude <span class="on">plan &middot; write &middot; review</span></div>
+        <div class="tool-tag">GitHub Copilot <span class="on">inline</span></div>
+        <div class="tool-tag">MCP <span class="on">tool integration</span></div>
       </div>
     </div>
   </div>
