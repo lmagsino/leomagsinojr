@@ -100,37 +100,35 @@
   }
   .hero-sub strong{color:var(--ink); font-weight:600;}
 
-  /* ---------- SIGNATURE: dot-leader spec block ---------- */
-  .spec{
+  /* Full width so the hairlines line up with the card grids below. */
+  .stat-row{
+    display:flex;
     margin-top:var(--s12);
     border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
   }
-  .spec-row{
-    display:flex;
-    align-items:baseline;
-    gap:var(--s3);
-    padding:var(--s3) 0;
-    border-bottom:1px solid var(--line);
+  .stat{
+    flex:1;
+    padding:var(--s4) 0;
+    border-right:1px solid var(--line);
+  }
+  /* First cell stays flush with the page rail; the rest clear their divider. */
+  .stat + .stat{padding-left:var(--s6);}
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-size:var(--t-h2);
+    font-variation-settings:'opsz' 40;
+    color:var(--accent);
+    line-height:1.2;
+  }
+  .stat .lbl{
     font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-meta);
-  }
-  .spec-row dt{
-    letter-spacing:0.08em;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
     text-transform:uppercase;
     color:var(--ink-dim);
-    white-space:nowrap;
+    margin-top:var(--s1);
   }
-  .spec-row .leader{
-    flex:1 1 auto;
-    min-width:var(--s6);
-    border-bottom:1px dotted var(--line-strong);
-    transform:translateY(-3px);
-  }
-  .spec-row dd{
-    color:var(--ink);
-    text-align:right;
-  }
-  .spec-row dd b{color:var(--accent); font-weight:500;}
 
   .link-row{
     margin-top:var(--s8);
@@ -516,9 +514,10 @@
     .skill-grid, .proj-grid,
     .site-grid, .site-grid.agency{grid-template-columns:1fr;}
     .ai-panel{flex-direction:column;}
-    .spec-row{flex-wrap:wrap; gap:var(--s1);}
-    .spec-row .leader{display:none;}
-    .spec-row dd{text-align:left; width:100%;}
+    .stat-row{flex-direction:column;}
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat + .stat{padding-left:0;}
+    .stat:last-child{border-bottom:none;}
   }
 
   a:focus-visible, button:focus-visible{
@@ -540,24 +539,20 @@
       new tools, shipping something real.
     </p>
 
-    <dl class="spec">
-      <div class="spec-row">
-        <dt>Founding engineer</dt><span class="leader" aria-hidden="true"></span>
-        <dd><b>3 products</b>, built from zero</dd>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">3&times;</div>
+        <div class="lbl">Founding Engineer</div>
       </div>
-      <div class="spec-row">
-        <dt>Years building</dt><span class="leader" aria-hidden="true"></span>
-        <dd><b>13+</b></dd>
+      <div class="stat">
+        <div class="num">13+</div>
+        <div class="lbl">Years Building Products</div>
       </div>
-      <div class="spec-row">
-        <dt>Domains</dt><span class="leader" aria-hidden="true"></span>
-        <dd>Fintech &middot; Healthtech &middot; E-commerce</dd>
+      <div class="stat">
+        <div class="num">6</div>
+        <div class="lbl">Industries</div>
       </div>
-      <div class="spec-row">
-        <dt>Currently</dt><span class="leader" aria-hidden="true"></span>
-        <dd>ShiftCare &mdash; care coordination</dd>
-      </div>
-    </dl>
+    </div>
 
     <div class="link-row">
       <a class="primary" href="mailto:leo.magsino819@gmail.com">Email me</a>
