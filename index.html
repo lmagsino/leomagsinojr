@@ -79,7 +79,7 @@
   .wrap{max-width:var(--max); margin:0 auto; padding:0 var(--s6);}
   .hero-sub, .link-row,
   section h2, section > .wrap > p.lead,
-  .ai-panel, .edu-row, .cert-list,
+  .edu-row, .cert-list,
   footer .close-line, .contact-grid{max-width:var(--measure);}
 
   .mono{font-family:'JetBrains Mono', ui-monospace, monospace;}
@@ -339,30 +339,6 @@
   .site-card.nolink{cursor:default;}
   .site-card.nolink:hover{border-color:var(--line);}
 
-  /* ---------- AI SECTION ---------- */
-  /* prose at reading width, tools as a row beneath — three paragraphs beside a
-     short panel left a large hole to the right */
-  .ai-panel{display:block;}
-  .ai-panel .copy p{color:var(--ink-dim);}
-  .ai-panel .copy p + p{margin-top:var(--s3);}
-  .tool-tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:var(--s2);
-    margin-top:var(--s6);
-  }
-  .tool-tag{flex:1 1 auto; min-width:180px;}
-  .tool-tag{
-    border:1px solid var(--line-strong);
-    padding:var(--s3) var(--s3);
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-meta);
-    display:flex;
-    justify-content:space-between;
-    gap:var(--s3);
-    color:var(--ink-dim);
-  }
-  .tool-tag span.on{color:var(--accent);}
 
   /* ---------- STACK: echoes the hero's spec block ---------- */
   .skill-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--s6) var(--s12);}
@@ -446,7 +422,6 @@
     header.hero{padding:var(--s16) 0 var(--s12);}
     .skill-grid,
     .site-grid, .site-grid.trio{grid-template-columns:1fr;}
-    .ai-panel{flex-direction:column;}
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
     .stat + .stat{padding-left:0;}
@@ -661,26 +636,7 @@
       </div>
       <div class="skill-cat">
         <div class="cat-label">AI &amp; Agents</div>
-        <div class="items">MCP (fast-mcp), Anthropic SDK, tool-calling agents, Claude, GitHub Copilot</div>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="ai">
-  <div class="wrap reveal">
-    <div class="eyebrow">Current toolchain</div>
-    <h2>AI is leverage. I decide where it points.</h2>
-    <div class="ai-panel">
-      <div class="copy">
-        <p>An agent will build the wrong thing very quickly and very cheerfully. Deciding which
-        thing is worth building is still mine &mdash; so the method matters more than the tools:
-        spec before code, phases small enough to verify, every diff read as though someone else
-        wrote it.</p>
-      </div>
-      <div class="tool-tags">
-        <div class="tool-tag">Claude <span class="on">plan &middot; write &middot; review</span></div>
-        <div class="tool-tag">GitHub Copilot <span class="on">inline</span></div>
-        <div class="tool-tag">MCP <span class="on">tool integration</span></div>
+        <div class="items">Claude, GitHub Copilot, MCP (fast-mcp), Anthropic SDK</div>
       </div>
     </div>
   </div>
