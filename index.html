@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leodegario Magsino Jr. — AI-Powered Product Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F1;
+    --paper-raised:#FFFFFF;
+    --ink:#221F1A;
+    --paper-dim:#736C5E;
+    --brass:#96702A;
+    --brass-soft:#C9A464;
+    --line:#E7E1D2;
+    --footnote:#BDB4A0;
+    /* Two measures: prose stays at a readable ~65ch; card grids get the full width. */
+    --max:1040px;
+    --measure:704px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--brass); color:var(--paper-raised);}
+
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  /* Prose and the timeline hold the reading measure; grids below opt out and run full width. */
+  .hero-sub, .stat-row, .link-row,
+  section h2, section > .wrap > p.lead,
+  .timeline, .ai-panel,
+  .edu-row, .cert-list,
+  footer .close-line, .contact-grid{max-width:var(--measure);}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:16px; height:1px;
+    background:var(--brass-soft);
+    display:inline-block;
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:120px 0 96px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .eyebrow{margin-bottom:28px;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(40px, 6vw, 62px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--brass);
+    font-weight:400;
+  }
+  .hero-sub{
+    margin-top:26px;
+    max-width:52ch;
+    font-size:18px;
+    color:var(--paper-dim);
+    font-weight:400;
+  }
+  .hero-sub strong{color:var(--ink); font-weight:600;}
+
+  .stat-row{
+    display:flex;
+    gap:0;
+    margin-top:48px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .stat{
+    flex:1;
+    padding:18px 0;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-family:'Fraunces', serif;
+    font-size:28px;
+    color:var(--brass);
+  }
+  .stat .lbl{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    margin-top:4px;
+  }
+
+  .link-row{
+    margin-top:32px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+  .link-row a{
+    padding:9px 16px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .link-row a:hover{border-color:var(--brass); color:var(--brass);}
+  .link-row a.primary{
+    background:var(--brass);
+    color:var(--paper-raised);
+    border-color:var(--brass);
+    font-weight:500;
+  }
+  .link-row a.primary:hover{opacity:0.88; color:var(--paper-raised);}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:88px 0; border-bottom:1px solid var(--line);}
+  section h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:30px;
+    margin-top:14px;
+    margin-bottom:20px;
+    color:var(--ink);
+  }
+  section > .wrap > p.lead{
+    max-width:58ch;
+    color:var(--paper-dim);
+    font-size:16px;
+    margin-bottom:40px;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    position:relative;
+    margin-left:8px;
+    padding-left:32px;
+    border-left:1px solid var(--line);
+  }
+  /* Scoped to .timeline: `.role` used to leak padding into the preview cards' job line. */
+  .timeline .role{
+    position:relative;
+    padding-bottom:44px;
+  }
+  .timeline .role:last-child{padding-bottom:0;}
+  .node{
+    position:absolute;
+    left:-37px;
+    top:4px;
+    width:12px; height:12px;
+    background:var(--paper-raised);
+    border:2px solid var(--paper-dim);
+    border-radius:50%;
+  }
+  .role.founding .node{
+    border-radius:2px;
+    transform:rotate(45deg);
+    border-color:var(--brass);
+    background:var(--brass);
+    box-shadow:0 0 0 3px rgba(201,164,100,0.15);
+  }
+  .role.startup .node{
+    border-color:var(--brass-soft);
+  }
+  .role.agency .node{
+    border-radius:2px;
+    border-color:var(--paper-dim);
+  }
+  .role-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px 16px;
+  }
+  .role-title{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:500;
+  }
+  .role-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--paper-dim);
+    white-space:nowrap;
+  }
+  .role-co{
+    margin-top:4px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.02em;
+    color:var(--paper-dim);
+  }
+  .role-co a{text-decoration:none; border-bottom:1px dotted var(--brass-soft);}
+  .role-co a:hover{color:var(--ink);}
+  .badge{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-left:9px;
+    vertical-align:middle;
+  }
+  .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    margin-left:9px;
+    vertical-align:middle;
+  }
+  .role-desc{
+    margin-top:12px;
+    color:var(--paper-dim);
+    font-size:15px;
+    max-width:56ch;
+  }
+  .role-stack{
+    margin-top:12px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.02em;
+    color:var(--brass-soft);
+  }
+
+  /* ---------- SITE PREVIEWS ---------- */
+  .group-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+    margin:0 0 14px;
+  }
+  .site-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  /* Three agency cards fill one row instead of leaving an orphan in a 2-col grid. */
+  .site-grid.agency{grid-template-columns:repeat(3, 1fr);}
+  .site-grid + .group-label{
+    margin-top:40px;
+  }
+  /* Column flex so a row of cards shares one height with no dead space at the bottom. */
+  .site-card{
+    display:flex;
+    flex-direction:column;
+    text-decoration:none;
+    color:inherit;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:7px;
+    overflow:hidden;
+    transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+  }
+  .site-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 28px -16px rgba(34,31,26,0.22);
+    border-color:var(--brass-soft);
+  }
+  .site-chrome{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:10px 12px;
+    background:#F2EDE0;
+    border-bottom:1px solid var(--line);
+  }
+  .site-chrome .dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--line);
+  }
+  .site-chrome .url{
+    margin-left:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--paper-dim);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  /* 2.4:1 everywhere — matches the captured images, so cover never crops them sideways. */
+  .site-preview{
+    flex:0 0 auto;
+    aspect-ratio:2.4 / 1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg, #EFE4CD, #FBF8F2);
+    overflow:hidden;
+  }
+  .site-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:top center;
+    display:block;
+  }
+  .site-preview .mono-letter{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:64px;
+    line-height:1;
+    color:var(--brass);
+    opacity:0.72;
+  }
+  .site-foot{
+    flex:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:14px 16px;
+    gap:10px;
+  }
+  .site-foot .name{
+    font-size:15px;
+    font-weight:600;
+  }
+  .site-foot .site-role{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--paper-dim);
+    margin-top:2px;
+  }
+  .site-foot .impact{
+    font-size:12.5px;
+    color:var(--paper-dim);
+    margin-top:6px;
+    line-height:1.4;
+  }
+  .site-foot .visit{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--paper-dim);
+    white-space:nowrap;
+    transition:color .2s ease;
+  }
+  .site-card:hover .visit{color:var(--brass);}
+
+  /* ---------- AI SECTION ---------- */
+  .ai-panel{
+    display:flex;
+    gap:32px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  .ai-panel .copy{flex:1; min-width:280px;}
+  .ai-panel .copy p{color:var(--paper-dim); font-size:16px; max-width:52ch;}
+  .ai-panel .copy p + p{margin-top:14px;}
+  .tool-tags{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    min-width:200px;
+  }
+  .tool-tag{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    border-radius:3px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    color:var(--paper-dim);
+  }
+  .tool-tag span.on{color:var(--brass);}
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px 40px;
+  }
+  .skill-cat .cat-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+    margin-bottom:10px;
+  }
+  .skill-cat .items{
+    font-size:14.5px;
+    color:var(--paper-dim);
+    line-height:1.9;
+  }
+
+  /* ---------- PROJECTS (in progress) ---------- */
+  .proj-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .proj-card{
+    border:1px dashed var(--line);
+    border-radius:4px;
+    padding:22px;
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    opacity:0.7;
+    text-decoration:none;
+    color:inherit;
+  }
+  .proj-card.live{
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    opacity:1;
+    transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+  }
+  .proj-card.live:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 28px -16px rgba(34,31,26,0.22);
+    border-color:var(--brass-soft);
+  }
+  .proj-card.live .status{
+    color:var(--brass);
+    border-color:var(--brass-soft);
+  }
+  .proj-card.live .name{
+    font-style:normal;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .proj-card .desc{
+    font-size:13px;
+    color:var(--paper-dim);
+    margin-top:8px;
+  }
+  .proj-card .visit{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--paper-dim);
+    margin-top:16px;
+    transition:color .2s ease;
+  }
+  .proj-card.live:hover .visit{color:var(--brass);}
+  .proj-card .status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    align-self:flex-start;
+    border:1px solid var(--line);
+    padding:3px 8px;
+    border-radius:2px;
+  }
+  .proj-card .name{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--paper-dim);
+    margin-top:14px;
+  }
+  .proj-note{
+    margin-top:20px;
+    font-size:13px;
+    color:var(--paper-dim);
+    font-style:italic;
+  }
+
+  /* ---------- EDU ---------- */
+  .edu-row{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .edu-row:last-of-type{border-bottom:none;}
+  .edu-row .name{font-size:15px;}
+  .edu-row .meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--paper-dim);
+  }
+  .cert-list{
+    margin-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .cert-list span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    border:1px solid var(--line);
+    padding:6px 10px;
+    border-radius:2px;
+    color:var(--paper-dim);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:72px 0 60px;}
+  footer .close-line{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:24px;
+    max-width:34ch;
+    color:var(--ink);
+    margin-bottom:36px;
+  }
+  .contact-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+  .contact-grid a, .contact-grid span{
+    padding:10px 16px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    text-decoration:none;
+    color:var(--paper-dim);
+  }
+  .contact-grid a:hover{border-color:var(--brass); color:var(--brass);}
+  footer .foot-note{
+    margin-top:40px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--footnote);
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+
+  /* Agency row drops to 2-up before the card text gets too tight to read. */
+  @media (max-width:900px){
+    .site-grid.agency{grid-template-columns:1fr 1fr;}
+  }
+
+  @media (max-width:640px){
+    header.hero{padding:80px 0 64px;}
+    .stat-row{flex-direction:column;}
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat:last-child{border-bottom:none;}
+    .skill-grid{grid-template-columns:1fr;}
+    .proj-grid{grid-template-columns:1fr;}
+    .site-grid, .site-grid.agency{grid-template-columns:1fr;}
+    .ai-panel{flex-direction:column;}
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">AI-Powered Product Builder</div>
+    <h1>Leodegario<br>Magsino Jr.</h1>
+    <p class="hero-sub">
+      I build products, not just code. Three times a founding engineer, with <strong>13+ years</strong>
+      building across fintech, healthtech, and e-commerce — comfortable working in ambiguity, just as
+      comfortable inside process and structure. Now I'm turning that same instinct toward AI: building with
+      new tools, shipping something real.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">3×</div>
+        <div class="lbl">Founding Engineer</div>
+      </div>
+      <div class="stat">
+        <div class="num">13+</div>
+        <div class="lbl">Years Building Products</div>
+      </div>
+      <div class="stat">
+        <div class="num">6</div>
+        <div class="lbl">Industries</div>
+      </div>
+    </div>
+
+    <div class="link-row">
+      <a class="primary" href="mailto:leo.magsino819@gmail.com">Email me</a>
+      <a href="https://www.linkedin.com/in/leomagsinojr/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/lmagsino" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+
+
+<section id="experience">
+  <div class="wrap reveal">
+    <div class="eyebrow">Products I've built</div>
+    <h2>The product, not the job title.</h2>
+
+    <div class="timeline">
+
+      <div class="role startup">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">ShiftCare <span class="tag">Startup</span></div>
+        </div>
+        <div class="role-co"><a href="https://www.shiftcare.com" target="_blank" rel="noopener">ShiftCare Pty. Ltd.</a></div>
+        <p class="role-desc">Care coordination software for home care and NDIS agencies. Shipping scheduling and mobile features, plus serverless microservices and the mobile app.</p>
+        <div class="role-stack">Ruby on Rails · Vue.js · Node.js · React Native · PostgreSQL</div>
+      </div>
+
+      <div class="role startup">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">PayMongo <span class="tag">Startup</span></div>
+        </div>
+        <div class="role-co"><a href="https://www.paymongo.com" target="_blank" rel="noopener">PayMongo Philippines Inc.</a></div>
+        <p class="role-desc">QR PH integration, bringing cashless payments to thousands of merchants across the Philippines.</p>
+        <div class="role-stack">Ruby on Rails · React · PostgreSQL</div>
+      </div>
+
+      <div class="role startup">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Edamama <span class="tag">Startup</span></div>
+        </div>
+        <div class="role-co"><a href="https://www.edamama.ph" target="_blank" rel="noopener">BeanLab, Inc.</a></div>
+        <p class="role-desc">E-commerce platform for baby and parenting essentials. Led backend infrastructure and re-architected the database for scale, reliability, and security.</p>
+        <div class="role-stack">Node.js · MongoDB</div>
+      </div>
+
+      <div class="role founding">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Advance <span class="badge">Founding Engineer</span></div>
+        </div>
+        <div class="role-co"><a href="https://www.advance.ph" target="_blank" rel="noopener">Advance Tech Lending Inc.</a></div>
+        <p class="role-desc">A business lending and payroll-advance platform for Philippine SMEs. Set the architecture from day one, then led the move from monolith to microservices as it scaled.</p>
+        <div class="role-stack">Node.js · Ruby on Rails · MongoDB · PostgreSQL · React Native</div>
+      </div>
+
+      <div class="role founding">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Field Sales CRM <span class="badge">Founding Engineer</span></div>
+        </div>
+        <div class="role-co">P &amp; A Trading Corporation</div>
+        <p class="role-desc">A CRM for the field sales team — iOS app and backend, built from nothing.</p>
+        <div class="role-stack">Swift · Java / Spring</div>
+      </div>
+
+      <div class="role founding">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Lendwell <span class="badge">Founding Engineer</span></div>
+        </div>
+        <div class="role-co">Lendwell Solutions Inc.</div>
+        <p class="role-desc">A digital lending platform's MVP, built from nothing — architecture set directly with the CEO.</p>
+        <div class="role-stack">Ruby on Rails · PostgreSQL</div>
+      </div>
+
+      <div class="role agency">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Service Fulfillment Automation <span class="tag">Agency</span></div>
+        </div>
+        <div class="role-co">Stratpoint Global Outsourcing Inc.</div>
+        <p class="role-desc">Led a team automating service fulfillment across mobile and web for an enterprise client, then took on Head of Data for the web capability team.</p>
+        <div class="role-stack">AWS Lambda · S3 · EC2 · RDS</div>
+      </div>
+
+      <div class="role agency">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Ticketing &amp; Parking Platforms <span class="tag">Agency</span></div>
+        </div>
+        <div class="role-co">Yondu Inc.</div>
+        <p class="role-desc">A CMS and web app for a national movie ticketing platform, plus a citywide parking app in an earlier stint.</p>
+        <div class="role-stack">Java · Spring Boot · Vue.js</div>
+      </div>
+
+      <div class="role agency">
+        <div class="node"></div>
+        <div class="role-head">
+          <div class="role-title">Internet Banking System <span class="tag">Agency</span></div>
+        </div>
+        <div class="role-co">Novare Technologies Inc.</div>
+        <p class="role-desc">Supported and deployed a bank's Internet Banking System, leading code and implementation reviews.</p>
+        <div class="role-stack">Java · Spring</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="companies">
+  <div class="wrap reveal">
+    <div class="eyebrow">Where it shipped</div>
+    <h2>Products live at these addresses.</h2>
+    <p class="lead">A mix of products I helped build and agencies where I delivered client work.</p>
+
+    <div class="group-label">Product</div>
+    <div class="site-grid">
+      <a class="site-card" href="https://www.shiftcare.com" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">shiftcare.com</span>
+        </div>
+        <div class="site-preview"><img src="assets/previews/shiftcare.jpg" alt="ShiftCare homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">ShiftCare</div>
+            <div class="site-role">Software Engineer · 2024—Present</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="site-card" href="https://www.paymongo.com" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">paymongo.com</span>
+        </div>
+        <div class="site-preview"><img src="assets/previews/paymongo.jpg" alt="PayMongo homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">PayMongo</div>
+            <div class="site-role">Software Engineer · 2024</div>
+            <div class="impact">QR PH integration — cashless payments for thousands of merchants nationwide</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="site-card" href="https://www.edamama.ph" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">edamama.ph</span>
+        </div>
+        <div class="site-preview"><img src="assets/previews/edamama.jpg" alt="edamama homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">Edamama (BeanLab)</div>
+            <div class="site-role">Sr. Backend Engineer · 2023—2024</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="site-card" href="https://www.advance.ph" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">advance.ph</span>
+        </div>
+        <div class="site-preview"><img src="assets/previews/advance.jpg" alt="Advance homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">Advance Tech Lending</div>
+            <div class="site-role">Sr. SWE, Founding Engineer · 2019—2021</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="group-label">Corporate / Agency</div>
+    <div class="site-grid agency">
+      <a class="site-card" href="https://www.stratpoint.com" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">stratpoint.com</span>
+        </div>
+        <div class="site-preview"><img src="assets/previews/stratpoint.jpg" alt="Stratpoint homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">Stratpoint</div>
+            <div class="site-role">Sr. Software Engineer · 2022—2023</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="site-card" href="https://www.yondu.com" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">yondu.com</span>
+        </div>
+        <div class="site-preview"><span class="mono-letter">Y</span></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">Yondu</div>
+            <div class="site-role">Sr. Software Engineer · 2015, 2019</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="site-card" href="https://www.novare.com.ph" target="_blank" rel="noopener">
+        <div class="site-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="url">novare.com.ph</span>
+        </div>
+        <div class="site-preview"><span class="mono-letter">N</span></div>
+        <div class="site-foot">
+          <div>
+            <div class="name">Novare Technologies</div>
+            <div class="site-role">Software Engineer · 2013—2015</div>
+          </div>
+          <div class="visit">Visit ↗</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap reveal">
+    <div class="eyebrow">Current toolchain</div>
+    <h2>AI is leverage. I decide where it points.</h2>
+    <div class="ai-panel">
+      <div class="copy">
+        <p>Claude and GitHub Copilot aren't a novelty bolted onto my workflow — they're how I plan, write, and
+        review code every day. They take the boilerplate and the exploration off my plate so my judgment goes
+        where it actually matters: architecture, trade-offs, and the calls that are expensive to get wrong.</p>
+        <p>Thirteen years of building products taught me what "good" looks like — for the code and for the
+        business behind it. AI didn't replace that judgment. It just closed the gap between having it and shipping it.</p>
+      </div>
+      <div class="tool-tags">
+        <div class="tool-tag">Claude <span class="on">daily</span></div>
+        <div class="tool-tag">GitHub Copilot <span class="on">daily</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap reveal">
+    <div class="eyebrow">Stack</div>
+    <h2>What I build with.</h2>
+    <div class="skill-grid">
+      <div class="skill-cat">
+        <div class="cat-label">Backend</div>
+        <div class="items">Ruby on Rails, Node.js, TypeScript, Java (Spring Boot), Python</div>
+      </div>
+      <div class="skill-cat">
+        <div class="cat-label">Frontend &amp; Mobile</div>
+        <div class="items">React, Vue.js, React Native, Swift</div>
+      </div>
+      <div class="skill-cat">
+        <div class="cat-label">Databases</div>
+        <div class="items">PostgreSQL, MongoDB, MySQL, DynamoDB</div>
+      </div>
+      <div class="skill-cat">
+        <div class="cat-label">Cloud &amp; Infra</div>
+        <div class="items">AWS (Lambda, EC2, S3, RDS, CloudWatch), Docker, GCP App Engine, Jenkins</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap reveal">
+    <div class="eyebrow">Side projects</div>
+    <h2>Building now.</h2>
+    <div class="proj-grid">
+      <a class="proj-card live" href="https://racecast.run" target="_blank" rel="noopener">
+        <div class="status">In progress</div>
+        <div>
+          <div class="name">RaceCast</div>
+          <div class="desc">Predicts your race finish time from a recent result — 5K to marathon, no sign-up.</div>
+        </div>
+        <div class="visit">racecast.run ↗</div>
+      </a>
+      <a class="proj-card live" href="https://github.com/lmagsino/run-coach-ai" target="_blank" rel="noopener">
+        <div class="status">In progress</div>
+        <div>
+          <div class="name">RunCoach AI</div>
+          <div class="desc">A chat-first AI running coach that reasons across Strava and Garmin via MCP — no dashboards, just answers.</div>
+        </div>
+        <div class="visit">View on GitHub ↗</div>
+      </a>
+    </div>
+    <p class="proj-note">RunCoach AI is a work in progress — backend and MCP plumbing are built and tested, frontend and live account integration are next.</p>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap reveal">
+    <div class="eyebrow">Education &amp; certifications</div>
+    <h2>Foundations.</h2>
+    <div class="edu-row">
+      <div class="name">B.S. Information Technology — De La Salle University–Dasmariñas</div>
+      <div class="meta">2009 – 2013 · Dean's Honor List AY 2012–2013</div>
+    </div>
+    <div class="cert-list">
+      <span>MongoDB Certified Associate Developer</span>
+      <span>PCEP — Python Programmer</span>
+      <span>Oracle Certified Professional, Java SE 7</span>
+      <span>IBM Certified Associate, DB2</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap reveal">
+    <div class="close-line">Looking for a product builder who's done the "day one" build more than once — let's talk.</div>
+    <div class="contact-grid">
+      <a href="mailto:leo.magsino819@gmail.com">leo.magsino819@gmail.com</a>
+      <span>Mandaluyong City, PH</span>
+      <a href="https://www.linkedin.com/in/leomagsinojr/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/lmagsino" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
