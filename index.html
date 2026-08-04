@@ -227,7 +227,7 @@
     margin:0 0 var(--s3);
   }
   .site-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--s4);}
-  .site-grid.agency{grid-template-columns:repeat(3, 1fr);}
+  .site-grid.trio{grid-template-columns:repeat(3, 1fr);}
   .site-grid + .group-label{margin-top:var(--s8);}
   /* these gaps were held open by the h2 and lead that used to sit here */
   section h2 + .group-label{margin-top:var(--s8);}
@@ -440,12 +440,12 @@
   }
 
   @media (max-width:900px){
-    .site-grid.agency{grid-template-columns:1fr 1fr;}
+    .site-grid.trio{grid-template-columns:1fr 1fr;}
   }
   @media (max-width:640px){
     header.hero{padding:var(--s16) 0 var(--s12);}
     .skill-grid,
-    .site-grid, .site-grid.agency{grid-template-columns:1fr;}
+    .site-grid, .site-grid.trio{grid-template-columns:1fr;}
     .ai-panel{flex-direction:column;}
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
@@ -567,7 +567,7 @@
     </div>
 
     <div class="group-label">Client &amp; enterprise work</div>
-    <div class="site-grid agency">
+    <div class="site-grid agency trio">
       <a class="site-card agency" href="https://www.stratpoint.com" target="_blank" rel="noopener">
         <div class="site-preview"><img src="assets/previews/stratpoint.jpg?v=69e9a8d3" alt="Service Fulfillment Automation preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
@@ -604,7 +604,7 @@
     </div>
 
     <div class="group-label">Side projects</div>
-    <div class="site-grid">
+    <div class="site-grid trio">
       <a class="site-card side" href="https://racecast.run" target="_blank" rel="noopener">
         <div class="site-preview"><img src="assets/previews/racecast.jpg?v=72baa777" alt="RaceCast preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
@@ -620,6 +620,17 @@
           <div class="name">RunCoach AI</div>
           <div class="tag">In progress</div>
           <p class="site-desc">A chat-first AI running coach that reasons across Strava and Garmin via MCP &mdash; no dashboards, just answers. Backend and MCP plumbing are built and tested; frontend and live account integration are next.</p>
+          <div class="site-stack">Go · Postgres · MCP · Vue 3</div>
+          <div class="visit">View on GitHub ↗</div>
+        </div>
+      </a>
+      <a class="site-card side" href="https://github.com/lmagsino/ph-payroll-mcp" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/phpayroll.jpg?v=a1557604" alt="ph-payroll-mcp smoke test output" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">PH Payroll MCP</div>
+          <div class="tag">Open source</div>
+          <p class="site-desc">An MCP server that gives any MCP client accurate Philippine statutory payroll math &mdash; SSS, PhilHealth, Pag-IBIG and BIR withholding &mdash; computed from versioned tables instead of guessed from training data.</p>
+          <div class="site-stack">Ruby · Sinatra · fast-mcp</div>
           <div class="visit">View on GitHub ↗</div>
         </div>
       </a>
