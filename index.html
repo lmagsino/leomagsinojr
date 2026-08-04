@@ -205,66 +205,7 @@
     margin-bottom:var(--s8);
   }
 
-  /* ---------- TIMELINE ---------- */
-  /* Legend teaches the shape language once, up front. */
-  .legend{
-    display:flex;
-    flex-wrap:wrap;
-    gap:var(--s6);
-    margin-bottom:var(--s12);
-    padding-bottom:var(--s4);
-    border-bottom:1px solid var(--line);
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-micro);
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--ink-dim);
-  }
-  .legend span{display:flex; align-items:center; gap:var(--s2);}
-  .legend i{width:9px; height:9px; flex:0 0 auto;}
-  .legend i.f{background:var(--accent); transform:rotate(45deg);}
-  .legend i.s{border:1.5px solid var(--accent-soft); border-radius:50%;}
-  .legend i.a{border:1.5px solid var(--line-strong);}
-
-  .timeline{
-    position:relative;
-    margin-left:var(--s2);
-    padding-left:var(--s8);
-    border-left:1px solid var(--line);
-  }
-  .timeline .role{
-    position:relative;
-    display:grid;
-    grid-template-columns:var(--col-id) minmax(0, 1fr);
-    gap:0 var(--s12);
-    padding-bottom:var(--s12);
-  }
-  .timeline .role:last-child{padding-bottom:0;}
-  .node{
-    position:absolute;
-    left:-37px;
-    top:7px;
-    width:11px; height:11px;
-    background:var(--paper);
-    border:1.5px solid var(--line-strong);
-  }
-  .role.founding .node{
-    transform:rotate(45deg);
-    border-color:var(--accent);
-    background:var(--accent);
-  }
-  .role.startup .node{
-    border-radius:50%;
-    border-color:var(--accent-soft);
-  }
-  .role-title{
-    font-size:var(--t-title);
-    font-variation-settings:'opsz' 24;
-    font-weight:600;
-    letter-spacing:-0.004em;
-    line-height:1.3;
-  }
-  /* Quiet confirmation of what the shape already says — not a second shout. */
+  /* ---------- PRODUCT CARD LABELS ---------- */
   .badge, .tag{
     display:block;
     font-family:'JetBrains Mono', ui-monospace, monospace;
@@ -275,21 +216,6 @@
   }
   .badge{color:var(--accent);}
   .tag{color:var(--ink-dim);}
-  .role-co{
-    margin-top:var(--s2);
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-meta);
-    color:var(--ink-dim);
-  }
-  .role-co a{text-decoration:none; border-bottom:1px solid var(--line-strong);}
-  .role-co a:hover{color:var(--accent); border-color:var(--accent);}
-  .role-desc{color:var(--ink-dim);}
-  .role-stack{
-    margin-top:var(--s3);
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-meta);
-    color:var(--accent-soft);
-  }
 
   /* ---------- SITE PREVIEWS ---------- */
   .group-label{
@@ -378,34 +304,45 @@
   .site-foot{
     flex:1;
     display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    padding:var(--s3) var(--s4);
-    gap:var(--s2);
+    flex-direction:column;
+    padding:var(--s4);
   }
-  .site-foot .name{font-size:var(--t-body); font-weight:600;}
-  .site-foot .site-role{
+  .site-foot .name{
+    font-size:var(--t-title);
+    font-weight:600;
+    letter-spacing:-0.004em;
+    line-height:1.25;
+  }
+  .site-co{
+    margin-top:var(--s2);
     font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-micro);
-    letter-spacing:0.06em;
-    color:var(--ink-dim);
-    margin-top:var(--s1);
-  }
-  .site-foot .impact{
     font-size:var(--t-meta);
     color:var(--ink-dim);
-    margin-top:var(--s2);
-    line-height:1.45;
   }
+  .site-desc{
+    margin-top:var(--s3);
+    color:var(--ink-dim);
+  }
+  .site-stack{
+    margin-top:var(--s3);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--accent-soft);
+  }
+  /* pinned to the bottom so every card in a row lines its link up */
   .site-foot .visit{
+    margin-top:auto;
+    padding-top:var(--s4);
     font-family:'JetBrains Mono', ui-monospace, monospace;
     font-size:var(--t-micro);
     letter-spacing:0.06em;
     color:var(--ink-dim);
-    white-space:nowrap;
     transition:color .2s ease;
   }
   .site-card:hover .visit{color:var(--accent);}
+  /* two builds have no public site — no hover affordance, nothing opens */
+  .site-card.nolink{cursor:default;}
+  .site-card.nolink:hover{border-color:var(--line);}
 
   /* ---------- AI SECTION ---------- */
   .ai-panel{display:flex; gap:var(--s8); align-items:flex-start; flex-wrap:wrap;}
@@ -541,10 +478,6 @@
   @media (max-width:900px){
     .site-grid.agency{grid-template-columns:1fr 1fr;}
   }
-  @media (max-width:820px){
-    .timeline .role{grid-template-columns:1fr; gap:0;}
-    .role-body{margin-top:var(--s3);}
-  }
   @media (max-width:640px){
     header.hero{padding:var(--s16) 0 var(--s12);}
     .skill-grid, .proj-grid,
@@ -597,247 +530,122 @@
 </header>
 
 
-<section id="experience">
+<section id="products">
   <div class="wrap reveal">
     <div class="eyebrow">Products I've built</div>
     <h2>The product, not the job title.</h2>
+    <p class="lead">Nine products across fintech, healthtech, and e-commerce. Most are still live &mdash; the links go straight to them.</p>
 
-    <div class="legend">
-      <span><i class="f"></i>Founding engineer</span>
-      <span><i class="s"></i>Startup</span>
-      <span><i class="a"></i>Agency</span>
-    </div>
-
-    <div class="timeline">
-
-      <div class="role startup">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">ShiftCare</div>
-          <div class="tag">Startup</div>
-          <div class="role-co"><a href="https://www.shiftcare.com" target="_blank" rel="noopener">ShiftCare Pty. Ltd.</a></div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">Care coordination software for home care and NDIS agencies. Shipping scheduling and mobile features, plus serverless microservices and the mobile app.</p>
-          <div class="role-stack">Ruby on Rails · Vue.js · Node.js · React Native · PostgreSQL</div>
-        </div>
-      </div>
-
-      <div class="role startup">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">PayMongo</div>
-          <div class="tag">Startup</div>
-          <div class="role-co"><a href="https://www.paymongo.com" target="_blank" rel="noopener">PayMongo Philippines Inc.</a></div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">QR PH integration, bringing cashless payments to thousands of merchants across the Philippines.</p>
-          <div class="role-stack">Ruby on Rails · React · PostgreSQL</div>
-        </div>
-      </div>
-
-      <div class="role startup">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Edamama</div>
-          <div class="tag">Startup</div>
-          <div class="role-co"><a href="https://www.edamama.ph" target="_blank" rel="noopener">BeanLab, Inc.</a></div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">E-commerce platform for baby and parenting essentials. Led backend infrastructure and re-architected the database for scale, reliability, and security.</p>
-          <div class="role-stack">Node.js · MongoDB</div>
-        </div>
-      </div>
-
-      <div class="role founding">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Advance</div>
-          <div class="badge">Founding Engineer</div>
-          <div class="role-co"><a href="https://www.advance.ph" target="_blank" rel="noopener">Advance Tech Lending Inc.</a></div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">A business lending and payroll-advance platform for Philippine SMEs. Set the architecture from day one, then led the move from monolith to microservices as it scaled.</p>
-          <div class="role-stack">Node.js · Ruby on Rails · MongoDB · PostgreSQL · React Native</div>
-        </div>
-      </div>
-
-      <div class="role founding">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Field Sales CRM</div>
-          <div class="badge">Founding Engineer</div>
-          <div class="role-co">P &amp; A Trading Corporation</div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">A CRM for the field sales team — iOS app and backend, built from nothing.</p>
-          <div class="role-stack">Swift · Java / Spring</div>
-        </div>
-      </div>
-
-      <div class="role founding">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Lendwell</div>
-          <div class="badge">Founding Engineer</div>
-          <div class="role-co">Lendwell Solutions Inc.</div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">A digital lending platform's MVP, built from nothing — architecture set directly with the CEO.</p>
-          <div class="role-stack">Ruby on Rails · PostgreSQL</div>
-        </div>
-      </div>
-
-      <div class="role agency">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Service Fulfillment Automation</div>
-          <div class="tag">Agency</div>
-          <div class="role-co">Stratpoint Global Outsourcing Inc.</div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">Led a team automating service fulfillment across mobile and web for an enterprise client, then took on Head of Data for the web capability team.</p>
-          <div class="role-stack">AWS Lambda · S3 · EC2 · RDS</div>
-        </div>
-      </div>
-
-      <div class="role agency">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Ticketing &amp; Parking Platforms</div>
-          <div class="tag">Agency</div>
-          <div class="role-co">Yondu Inc.</div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">A CMS and web app for a national movie ticketing platform, plus a citywide parking app in an earlier stint.</p>
-          <div class="role-stack">Java · Spring Boot · Vue.js</div>
-        </div>
-      </div>
-
-      <div class="role agency">
-        <div class="node"></div>
-        <div class="role-id">
-          <div class="role-title">Internet Banking System</div>
-          <div class="tag">Agency</div>
-          <div class="role-co">Novare Technologies Inc.</div>
-        </div>
-        <div class="role-body">
-          <p class="role-desc">Supported and deployed a bank's Internet Banking System, leading code and implementation reviews.</p>
-          <div class="role-stack">Java · Spring</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="companies">
-  <div class="wrap reveal">
-    <div class="eyebrow">Where it shipped</div>
-    <h2>Products live at these addresses.</h2>
-    <p class="lead">A mix of products I helped build and agencies where I delivered client work.</p>
-
-    <div class="group-label">Product</div>
+    <div class="group-label">Products</div>
     <div class="site-grid">
-      <a class="site-card" href="https://www.shiftcare.com" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">shiftcare.com</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/shiftcare.jpg" alt="ShiftCare homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card startup" href="https://www.shiftcare.com" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">shiftcare.com</span></div>
+        <div class="site-preview"><img src="assets/previews/shiftcare.jpg" alt="ShiftCare preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">ShiftCare</div>
-            <div class="site-role">Software Engineer · 2024—Present</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">ShiftCare</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">ShiftCare Pty. Ltd.</div>
+          <p class="site-desc">Care coordination software for home care and NDIS agencies. Shipping scheduling and mobile features, plus serverless microservices and the mobile app.</p>
+          <div class="site-stack">Ruby on Rails · Vue.js · Node.js · React Native · PostgreSQL</div>
+        <div class="visit">shiftcare.com ↗</div>
         </div>
       </a>
-
-      <a class="site-card" href="https://www.paymongo.com" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">paymongo.com</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/paymongo.jpg" alt="PayMongo homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card startup" href="https://www.paymongo.com" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">paymongo.com</span></div>
+        <div class="site-preview"><img src="assets/previews/paymongo.jpg" alt="PayMongo preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">PayMongo</div>
-            <div class="site-role">Software Engineer · 2024</div>
-            <div class="impact">QR PH integration — cashless payments for thousands of merchants nationwide</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">PayMongo</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">PayMongo Philippines Inc.</div>
+          <p class="site-desc">QR PH integration, bringing cashless payments to thousands of merchants across the Philippines.</p>
+          <div class="site-stack">Ruby on Rails · React · PostgreSQL</div>
+        <div class="visit">paymongo.com ↗</div>
         </div>
       </a>
-
-      <a class="site-card" href="https://www.edamama.ph" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">edamama.ph</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/edamama.jpg" alt="edamama homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card startup" href="https://www.edamama.ph" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">edamama.ph</span></div>
+        <div class="site-preview"><img src="assets/previews/edamama.jpg" alt="Edamama preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">Edamama (BeanLab)</div>
-            <div class="site-role">Sr. Backend Engineer · 2023—2024</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">Edamama</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">BeanLab, Inc.</div>
+          <p class="site-desc">E-commerce platform for baby and parenting essentials. Led backend infrastructure and re-architected the database for scale, reliability, and security.</p>
+          <div class="site-stack">Node.js · MongoDB</div>
+        <div class="visit">edamama.ph ↗</div>
         </div>
       </a>
-
-      <a class="site-card" href="https://www.advance.ph" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">advance.ph</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/advance.jpg" alt="Advance homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card founding" href="https://www.advance.ph" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">advance.ph</span></div>
+        <div class="site-preview"><img src="assets/previews/advance.jpg" alt="Advance preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">Advance Tech Lending</div>
-            <div class="site-role">Sr. SWE, Founding Engineer · 2019—2021</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">Advance</div>
+          <div class="badge">Founding Engineer</div>
+          <div class="site-co">Advance Tech Lending Inc.</div>
+          <p class="site-desc">A business lending and payroll-advance platform for Philippine SMEs. Set the architecture from day one, then led the move from monolith to microservices as it scaled.</p>
+          <div class="site-stack">Node.js · Ruby on Rails · MongoDB · PostgreSQL · React Native</div>
+        <div class="visit">advance.ph ↗</div>
         </div>
       </a>
+      <div class="site-card founding nolink">
+        <div class="site-chrome"><span class="url">No public site</span></div>
+        <div class="site-preview"><span class="mono-letter">L</span></div>
+        <div class="site-foot">
+          <div class="name">Lendwell</div>
+          <div class="badge">Founding Engineer</div>
+          <div class="site-co">Lendwell Solutions Inc.</div>
+          <p class="site-desc">A digital lending platform's MVP, built from nothing — architecture set directly with the CEO.</p>
+          <div class="site-stack">Ruby on Rails · PostgreSQL</div>
+        </div>
+      </div>
+      <div class="site-card founding nolink">
+        <div class="site-chrome"><span class="url">Internal tool</span></div>
+        <div class="site-preview"><span class="mono-letter">P</span></div>
+        <div class="site-foot">
+          <div class="name">Field Sales CRM</div>
+          <div class="badge">Founding Engineer</div>
+          <div class="site-co">P &amp; A Trading Corporation</div>
+          <p class="site-desc">A CRM for the field sales team — iOS app and backend, built from nothing.</p>
+          <div class="site-stack">Swift · Java / Spring</div>
+        </div>
+      </div>
     </div>
 
-    <div class="group-label">Corporate / Agency</div>
+    <div class="group-label">Client &amp; enterprise work</div>
     <div class="site-grid agency">
-      <a class="site-card" href="https://www.stratpoint.com" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">stratpoint.com</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/stratpoint.jpg" alt="Stratpoint homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card agency" href="https://www.stratpoint.com" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">stratpoint.com</span></div>
+        <div class="site-preview"><img src="assets/previews/stratpoint.jpg" alt="Service Fulfillment Automation preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">Stratpoint</div>
-            <div class="site-role">Sr. Software Engineer · 2022—2023</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">Service Fulfillment Automation</div>
+          <div class="tag">Agency</div>
+          <div class="site-co">Stratpoint Global Outsourcing Inc.</div>
+          <p class="site-desc">Led a team automating service fulfillment across mobile and web for an enterprise client, then took on Head of Data for the web capability team.</p>
+          <div class="site-stack">AWS Lambda · S3 · EC2 · RDS</div>
+        <div class="visit">stratpoint.com ↗</div>
         </div>
       </a>
-
-      <a class="site-card" href="https://www.yondu.com" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">yondu.com</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/yondu.jpg" alt="Yondu homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card agency" href="https://www.yondu.com" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">yondu.com</span></div>
+        <div class="site-preview"><img src="assets/previews/yondu.jpg" alt="Ticketing & Parking Platforms preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">Yondu</div>
-            <div class="site-role">Sr. Software Engineer · 2015, 2019</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">Ticketing &amp; Parking Platforms</div>
+          <div class="tag">Agency</div>
+          <div class="site-co">Yondu Inc.</div>
+          <p class="site-desc">A CMS and web app for a national movie ticketing platform, plus a citywide parking app in an earlier stint.</p>
+          <div class="site-stack">Java · Spring Boot · Vue.js</div>
+        <div class="visit">yondu.com ↗</div>
         </div>
       </a>
-
-      <a class="site-card" href="https://www.novare.com.ph" target="_blank" rel="noopener">
-        <div class="site-chrome">
-          <span class="url">novare.com.ph</span>
-        </div>
-        <div class="site-preview"><img src="assets/previews/novare.jpg" alt="Novare Technologies homepage" width="1000" height="416" loading="lazy" decoding="async"></div>
+      <a class="site-card agency" href="https://www.novare.com.ph" target="_blank" rel="noopener">
+        <div class="site-chrome"><span class="url">novare.com.ph</span></div>
+        <div class="site-preview"><img src="assets/previews/novare.jpg" alt="Internet Banking System preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
-          <div>
-            <div class="name">Novare Technologies</div>
-            <div class="site-role">Software Engineer · 2013—2015</div>
-          </div>
-          <div class="visit">Visit ↗</div>
+          <div class="name">Internet Banking System</div>
+          <div class="tag">Agency</div>
+          <div class="site-co">Novare Technologies Inc.</div>
+          <p class="site-desc">Supported and deployed a bank's Internet Banking System, leading code and implementation reviews.</p>
+          <div class="site-stack">Java · Spring</div>
+        <div class="visit">novare.com.ph ↗</div>
         </div>
       </a>
     </div>
