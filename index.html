@@ -242,22 +242,6 @@
     transition:border-color .3s ease;
   }
   .site-card:hover{border-color:var(--accent);}
-  .site-chrome{
-    display:flex;
-    align-items:center;
-    gap:var(--s1);
-    padding:var(--s2) var(--s3);
-    border-bottom:1px solid var(--line);
-  }
-  .site-chrome .url{
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:var(--t-meta);
-    color:var(--ink-dim);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    min-width:0;
-  }
   /* Seven third-party brand palettes would hijack the page, so they read as
      blueprint duotone until you ask for them. */
   .site-preview{
@@ -343,6 +327,14 @@
     transition:color .2s ease;
   }
   .site-card:hover .visit{color:var(--accent);}
+  .site-foot .note{
+    margin-top:auto;
+    padding-top:var(--s4);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.06em;
+    color:var(--accent-soft);
+  }
   /* two builds have no public site — no hover affordance, nothing opens */
   .site-card.nolink{cursor:default;}
   .site-card.nolink:hover{border-color:var(--line);}
@@ -537,44 +529,7 @@
   <div class="wrap reveal">
     <div class="eyebrow">Products I've built</div>
     <div class="site-grid">
-      <a class="site-card startup" href="https://www.shiftcare.com" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">shiftcare.com</span></div>
-        <div class="site-preview"><img src="assets/previews/shiftcare.jpg" alt="ShiftCare preview" width="1000" height="416" loading="lazy" decoding="async"></div>
-        <div class="site-foot">
-          <div class="name">ShiftCare</div>
-          <div class="tag">Startup</div>
-          <div class="site-co">ShiftCare Pty. Ltd.</div>
-          <p class="site-desc">Care coordination software for home care and NDIS agencies. Shipping scheduling and mobile features, plus serverless microservices and the mobile app.</p>
-          <div class="site-stack">Ruby on Rails · Vue.js · Node.js · React Native · PostgreSQL</div>
-        <div class="visit">shiftcare.com ↗</div>
-        </div>
-      </a>
-      <a class="site-card startup" href="https://www.paymongo.com" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">paymongo.com</span></div>
-        <div class="site-preview"><img src="assets/previews/paymongo.jpg" alt="PayMongo preview" width="1000" height="416" loading="lazy" decoding="async"></div>
-        <div class="site-foot">
-          <div class="name">PayMongo</div>
-          <div class="tag">Startup</div>
-          <div class="site-co">PayMongo Philippines Inc.</div>
-          <p class="site-desc">QR PH integration, bringing cashless payments to thousands of merchants across the Philippines.</p>
-          <div class="site-stack">Ruby on Rails · React · PostgreSQL</div>
-        <div class="visit">paymongo.com ↗</div>
-        </div>
-      </a>
-      <a class="site-card startup" href="https://www.edamama.ph" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">edamama.ph</span></div>
-        <div class="site-preview"><img src="assets/previews/edamama.jpg" alt="Edamama preview" width="1000" height="416" loading="lazy" decoding="async"></div>
-        <div class="site-foot">
-          <div class="name">Edamama</div>
-          <div class="tag">Startup</div>
-          <div class="site-co">BeanLab, Inc.</div>
-          <p class="site-desc">E-commerce platform for baby and parenting essentials. Led backend infrastructure and re-architected the database for scale, reliability, and security.</p>
-          <div class="site-stack">Node.js · MongoDB</div>
-        <div class="visit">edamama.ph ↗</div>
-        </div>
-      </a>
       <a class="site-card founding" href="https://www.advance.ph" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">advance.ph</span></div>
         <div class="site-preview"><img src="assets/previews/advance.jpg" alt="Advance preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Advance</div>
@@ -582,29 +537,62 @@
           <div class="site-co">Advance Tech Lending Inc.</div>
           <p class="site-desc">A business lending and payroll-advance platform for Philippine SMEs. Set the architecture from day one, then led the move from monolith to microservices as it scaled.</p>
           <div class="site-stack">Node.js · Ruby on Rails · MongoDB · PostgreSQL · React Native</div>
-        <div class="visit">advance.ph ↗</div>
+          <div class="visit">Visit site ↗</div>
+        </div>
+      </a>
+      <a class="site-card startup" href="https://www.paymongo.com" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/paymongo.jpg" alt="PayMongo preview" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">PayMongo</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">PayMongo Philippines Inc.</div>
+          <p class="site-desc">QR PH integration, bringing cashless payments to thousands of merchants across the Philippines.</p>
+          <div class="site-stack">Ruby on Rails · React · PostgreSQL</div>
+          <div class="visit">Visit site ↗</div>
+        </div>
+      </a>
+      <a class="site-card startup" href="https://www.shiftcare.com" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/shiftcare.jpg" alt="ShiftCare preview" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">ShiftCare</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">ShiftCare Pty. Ltd.</div>
+          <p class="site-desc">Care coordination software for home care and NDIS agencies. Shipping scheduling and mobile features, plus serverless microservices and the mobile app.</p>
+          <div class="site-stack">Ruby on Rails · Vue.js · Node.js · React Native · PostgreSQL</div>
+          <div class="visit">Visit site ↗</div>
+        </div>
+      </a>
+      <a class="site-card startup" href="https://www.edamama.ph" target="_blank" rel="noopener">
+        <div class="site-preview"><img src="assets/previews/edamama.jpg" alt="Edamama preview" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-foot">
+          <div class="name">Edamama</div>
+          <div class="tag">Startup</div>
+          <div class="site-co">BeanLab, Inc.</div>
+          <p class="site-desc">E-commerce platform for baby and parenting essentials. Led backend infrastructure and re-architected the database for scale, reliability, and security.</p>
+          <div class="site-stack">Node.js · MongoDB</div>
+          <div class="visit">Visit site ↗</div>
         </div>
       </a>
       <div class="site-card founding nolink">
-        <div class="site-chrome"><span class="url">No public site</span></div>
-        <div class="site-preview"><span class="mono-letter">L</span></div>
+        <div class="site-preview"><img src="assets/previews/lendwell.jpg" alt="Lendwell preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Lendwell</div>
           <div class="badge">Founding Engineer</div>
           <div class="site-co">Lendwell Solutions Inc.</div>
           <p class="site-desc">A digital lending platform's MVP, built from nothing — architecture set directly with the CEO.</p>
           <div class="site-stack">Ruby on Rails · PostgreSQL</div>
+          <div class="note">Not publicly available</div>
         </div>
       </div>
       <div class="site-card founding nolink">
-        <div class="site-chrome"><span class="url">Internal tool</span></div>
-        <div class="site-preview"><span class="mono-letter">P</span></div>
+        <div class="site-preview"><img src="assets/previews/fieldsales.jpg" alt="Field Sales CRM preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Field Sales CRM</div>
           <div class="badge">Founding Engineer</div>
           <div class="site-co">P &amp; A Trading Corporation</div>
           <p class="site-desc">A CRM for the field sales team — iOS app and backend, built from nothing.</p>
           <div class="site-stack">Swift · Java / Spring</div>
+          <div class="note">Not publicly available</div>
         </div>
       </div>
     </div>
@@ -612,7 +600,6 @@
     <div class="group-label">Client &amp; enterprise work</div>
     <div class="site-grid agency">
       <a class="site-card agency" href="https://www.stratpoint.com" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">stratpoint.com</span></div>
         <div class="site-preview"><img src="assets/previews/stratpoint.jpg" alt="Service Fulfillment Automation preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Service Fulfillment Automation</div>
@@ -620,23 +607,21 @@
           <div class="site-co">Stratpoint Global Outsourcing Inc.</div>
           <p class="site-desc">Led a team automating service fulfillment across mobile and web for an enterprise client, then took on Head of Data for the web capability team.</p>
           <div class="site-stack">AWS Lambda · S3 · EC2 · RDS</div>
-        <div class="visit">stratpoint.com ↗</div>
+          <div class="visit">Visit site ↗</div>
         </div>
       </a>
       <a class="site-card agency" href="https://www.yondu.com" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">yondu.com</span></div>
-        <div class="site-preview"><img src="assets/previews/yondu.jpg" alt="Ticketing & Parking Platforms preview" width="1000" height="416" loading="lazy" decoding="async"></div>
+        <div class="site-preview"><img src="assets/previews/yondu.jpg" alt="Ticketing &amp; Parking Platforms preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Ticketing &amp; Parking Platforms</div>
           <div class="tag">Agency</div>
           <div class="site-co">Yondu Inc.</div>
           <p class="site-desc">A CMS and web app for a national movie ticketing platform, plus a citywide parking app in an earlier stint.</p>
           <div class="site-stack">Java · Spring Boot · Vue.js</div>
-        <div class="visit">yondu.com ↗</div>
+          <div class="visit">Visit site ↗</div>
         </div>
       </a>
       <a class="site-card agency" href="https://www.novare.com.ph" target="_blank" rel="noopener">
-        <div class="site-chrome"><span class="url">novare.com.ph</span></div>
         <div class="site-preview"><img src="assets/previews/novare.jpg" alt="Internet Banking System preview" width="1000" height="416" loading="lazy" decoding="async"></div>
         <div class="site-foot">
           <div class="name">Internet Banking System</div>
@@ -644,7 +629,7 @@
           <div class="site-co">Novare Technologies Inc.</div>
           <p class="site-desc">Supported and deployed a bank's Internet Banking System, leading code and implementation reviews.</p>
           <div class="site-stack">Java · Spring</div>
-        <div class="visit">novare.com.ph ↗</div>
+          <div class="visit">Visit site ↗</div>
         </div>
       </a>
     </div>
