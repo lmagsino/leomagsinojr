@@ -341,7 +341,12 @@
 
 
   /* ---------- STACK: echoes the hero's spec block ---------- */
-  .skill-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--s6) var(--s12);}
+  .skill-grid{
+    columns:2;
+    column-gap:var(--s12);
+  }
+  .skill-cat{break-inside:avoid;}
+  .skill-cat + .skill-cat{margin-top:var(--s6);}
   .skill-cat .cat-label{
     font-family:'JetBrains Mono', ui-monospace, monospace;
     font-size:var(--t-micro);
@@ -420,8 +425,8 @@
   }
   @media (max-width:640px){
     header.hero{padding:var(--s16) 0 var(--s12);}
-    .skill-grid,
     .site-grid, .site-grid.trio{grid-template-columns:1fr;}
+    .skill-grid{columns:1;}   /* grid-template-columns is a no-op on a columns layout */
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
     .stat + .stat{padding-left:0;}
