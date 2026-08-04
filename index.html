@@ -34,7 +34,9 @@
   a{color:inherit;}
   .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
   /* Prose and the timeline hold the reading measure; grids below opt out and run full width. */
-  .hero-sub, .stat-row, .link-row,
+  /* .stat-row is deliberately absent: as a rule-bounded structure it runs the
+     full width so its hairlines align with the card grids below. */
+  .hero-sub, .link-row,
   section h2, section > .wrap > p.lead,
   .ai-panel,
   .edu-row, .cert-list,
