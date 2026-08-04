@@ -177,12 +177,14 @@
     transition:border-color .2s ease, color .2s ease, background .2s ease;
   }
   .link-row a:hover{border-color:var(--accent); color:var(--accent);}
+  /* Filled in the accent, not ink: ink was the only pure-black surface on the
+     page, which made the one CTA an outlier in the system. */
   .link-row a.primary{
-    background:var(--ink);
+    background:var(--accent);
     color:var(--paper);
-    border-color:var(--ink);
+    border-color:var(--accent);
   }
-  .link-row a.primary:hover{background:var(--accent); border-color:var(--accent); color:var(--paper);}
+  .link-row a.primary:hover{background:var(--ink); border-color:var(--ink); color:var(--paper);}
 
   /* ---------- SECTION shared ---------- */
   section{padding:var(--s24) 0; border-bottom:1px solid var(--line);}
