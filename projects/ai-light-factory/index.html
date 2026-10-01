@@ -568,6 +568,58 @@ DONE   T1.2 #59 Export schema     #58 77e01ab   -            draft, swept       
   </div>
 </section>
 
+<section id="built-on">
+  <div class="wrap reveal">
+    <div class="eyebrow">Credits</div>
+    <h2>Built on good skills that already exist</h2>
+    <div class="prose">
+      <p>Version 0.1 re-implemented deciding, planning and ticketing itself. Version 0.2 stopped doing that. The line now runs on two published skill packs, used as they are: Matt Pocock&rsquo;s <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">skills</a> &mdash; <code>grill-with-docs</code> settles the decisions one question at a time and writes the ADRs, and <code>to-tickets</code> publishes the tickets with their blocking edges &mdash; and Addy Osmani&rsquo;s <a href="https://github.com/addyosmani/agent-skills" target="_blank" rel="noopener">agent-skills</a>, which writes the plan and gives the Developer and Reviewer seats their build and review discipline. The term <em>light software factory</em> is Addy&rsquo;s too.</p>
+      <p>AI Light Factory adds what those packs don&rsquo;t have: the dev loop, the Verifier, the readiness gate, the guard and its shims, the seats and the board. The seats read the companion skill files by absolute path, so an agent from another vendor in a seat follows them too. Every skill is a <code>SKILL.md</code> in the open <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills</a> format.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap reveal">
+    <div class="eyebrow">Scope</div>
+    <h2>What it deliberately doesn&rsquo;t do</h2>
+    <div class="prose">
+      <p>It doesn&rsquo;t triage issues or run a scheduled queue &mdash; <a href="https://github.com/addyosmani/factory" target="_blank" rel="noopener">addyosmani/factory</a> does that well, and this line starts from a PRD you bring. It doesn&rsquo;t merge or deploy; pair it with your own CI and release train. It isn&rsquo;t a swarm: two lanes is the ceiling. And it isn&rsquo;t a hosted service. Everything runs in your terminal, against your GitHub, on your accounts.</p>
+      <p>The repo has a <a href="https://github.com/lmagsino/ai-light-factory/blob/main/docs/comparison.md" target="_blank" rel="noopener">side-by-side comparison</a> with other agent factories, if you want to see where it sits.</p>
+    </div>
+  </div>
+</section>
+
+<section id="try">
+  <div class="wrap reveal">
+    <div class="eyebrow">Try it</div>
+    <h2>Run the line</h2>
+    <div class="prose">
+      <p>AI Light Factory installs as a Claude Code plugin, next to the two skill packs it builds on. You need git, an authenticated <code>gh</code>, <code>jq</code> and <code>python3</code> &mdash; and ideally two coding-agent CLIs from different vendors.</p>
+    </div>
+<pre><span class="c"># install</span>
+/plugin marketplace add lmagsino/ai-light-factory
+/plugin install alf@ai-light-factory
+/plugin marketplace add mattpocock/skills
+/plugin install mattpocock-skills@mattpocock
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
+
+<span class="c"># run the line</span>
+/setup-matt-pocock-skills                         <span class="c"># once: point the ticket skills at GitHub</span>
+/alf:dev-loop setup                               <span class="c"># once per repo: seams, agents, companion paths</span>
+/mattpocock-skills:grill-with-docs docs/prd.md    <span class="c"># 1. decide</span>
+/agent-skills:plan                                <span class="c"># 2. plan</span>
+/mattpocock-skills:to-tickets tasks/plan.md       <span class="c"># 3. tickets</span>
+/alf:dev-loop #&lt;parent-issue&gt; --budget 2          <span class="c"># 4. dev loop, unattended</span>
+/alf:verify #&lt;parent-issue&gt;                       <span class="c"># 5. every flag state</span></pre>
+    <div class="link-row">
+      <a class="primary" href="https://github.com/lmagsino/ai-light-factory" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a href="https://github.com/lmagsino/ai-light-factory/blob/main/docs/install.md" target="_blank" rel="noopener">Install guide ↗</a>
+    </div>
+  </div>
+</section>
+
 </article>
 
 <footer>
