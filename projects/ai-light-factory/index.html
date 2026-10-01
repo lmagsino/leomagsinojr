@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Light Factory — Leodegario Magsino Jr.</title>
+<meta name="description" content="A light software factory for coding agents: PRD in, reviewed draft PRs out. The agents draft, you merge. An open-source project by Leodegario Magsino Jr.">
+<meta name="author" content="Leodegario Magsino Jr.">
+<meta name="theme-color" content="#F1ECE1">
+
+<!-- Same caveat as the home page: make og:image absolute once the domain is
+     attached, or LinkedIn will not resolve it. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Leodegario Magsino Jr.">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="AI Light Factory — a light software factory for coding agents">
+<meta property="og:description" content="PRD in, reviewed draft PRs out. Agents build and a second vendor reviews, unattended, on two lanes. Merging stays human, enforced by hooks rather than prompts.">
+<meta property="og:image" content="/assets/previews/ai-light-factory.jpg?v=b53035ef">
+<meta property="og:image:width" content="1232">
+<meta property="og:image:height" content="700">
+<meta property="og:image:alt" content="AI Light Factory — a light software factory. PRD in, reviewed draft PRs out. The agents draft. You merge.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Light Factory — a light software factory for coding agents">
+<meta name="twitter:description" content="PRD in, reviewed draft PRs out. The agents draft. You merge.">
+<meta name="twitter:image" content="/assets/previews/ai-light-factory.jpg?v=b53035ef">
+<link rel="icon" href="/assets/favicon.svg?v=2acbc91a" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Tokens and shared components mirror index.html; keep the two in step. */
+  :root{
+    --paper:#F1ECE1;
+    --paper-raised:#FCFAF5;
+    --ink:#221F1A;
+    --ink-dim:#6B6357;
+    --accent:#7E5D1F;
+    --accent-soft:#B79A62;
+    --line:#DCD4C1;
+    --line-strong:#C9BFA8;
+
+    --t-display:clamp(42px, 6.6vw, 72px);
+    --t-h2:30px;
+    --t-title:20px;
+    --t-lead:18px;
+    --t-body:16px;
+    --t-meta:12px;
+    --t-micro:10px;
+
+    --s1:4px;  --s2:8px;   --s3:12px;  --s4:16px;
+    --s6:24px; --s8:32px;  --s12:48px; --s16:64px;
+    --s24:96px; --s30:120px;
+
+    --max:1040px;
+    --measure:704px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Newsreader', Georgia, serif;
+    font-size:var(--t-body);
+    font-variation-settings:'opsz' 16;
+    font-weight:430;
+    font-variant-numeric:tabular-nums;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent); color:var(--paper-raised);}
+  a{color:inherit;}
+
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 var(--s6);}
+  .mono{font-family:'JetBrains Mono', ui-monospace, monospace;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:var(--s3);
+  }
+  .eyebrow::before{
+    content:'';
+    width:var(--s6); height:1px;
+    background:var(--accent-soft);
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{padding:var(--s6) 0; border-bottom:1px solid var(--line);}
+  .back{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+  .back:hover{color:var(--accent);}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:var(--s16) 0 var(--s12); border-bottom:1px solid var(--line);}
+  .hero .eyebrow{margin-bottom:var(--s6);}
+  h1{
+    font-size:var(--t-display);
+    font-variation-settings:'opsz' 72;
+    font-weight:600;
+    line-height:1.02;
+    letter-spacing:-0.012em;
+    text-wrap:balance;
+  }
+  .hero-sub{
+    margin-top:var(--s6);
+    max-width:var(--measure);
+    text-wrap:balance;
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
+    color:var(--ink-dim);
+  }
+  .hero-sub strong{color:var(--ink); font-weight:600;}
+
+  .stat-row{
+    display:flex;
+    margin-top:var(--s12);
+    border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .stat{flex:1; padding:var(--s4) 0; border-right:1px solid var(--line);}
+  .stat + .stat{padding-left:var(--s6);}
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-size:var(--t-h2);
+    font-variation-settings:'opsz' 40;
+    color:var(--accent);
+    line-height:1.2;
+  }
+  .stat .lbl{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-top:var(--s1);
+  }
+
+  .link-row{
+    margin-top:var(--s8);
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--s2);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+  }
+  .link-row a{
+    padding:var(--s3) var(--s4);
+    border:1px solid var(--line-strong);
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .link-row a:hover{border-color:var(--accent); color:var(--accent);}
+  .link-row a.primary{background:var(--accent); color:var(--paper); border-color:var(--accent);}
+  .link-row a.primary:hover{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+
+  /* ---------- FIGURES: allowed the full page width, unlike prose ---------- */
+  figure.plate{
+    margin-top:var(--s12);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:var(--s6);
+  }
+  figure.plate img{display:block; width:100%; height:auto;}
+  figure.plate figcaption, .caption{
+    margin-top:var(--s3);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:var(--s16) 0 var(--s12);}
+  footer .close-line{
+    font-size:var(--t-h2);
+    font-style:italic;
+    font-variation-settings:'opsz' 40;
+    font-weight:500;
+    letter-spacing:-0.008em;
+    line-height:1.25;
+    max-width:34ch;
+    margin-bottom:var(--s8);
+  }
+  .contact-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--s2);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+  }
+  .contact-grid a{
+    padding:var(--s3) var(--s4);
+    border:1px solid var(--line);
+    text-decoration:none;
+    color:var(--ink-dim);
+  }
+  .contact-grid a:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* ---------- motion ---------- */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+
+  @media (max-width:640px){
+    header.hero{padding:var(--s12) 0 var(--s8);}
+    .stat-row{flex-direction:column;}
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat + .stat{padding-left:0;}
+    .stat:last-child{border-bottom:none;}
+    figure.plate{padding:var(--s3);}
+  }
+
+  a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap"><a class="back" href="/">&larr; Leodegario Magsino Jr.</a></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Agentic engineering &middot; Open source</div>
+    <h1>AI Light Factory</h1>
+    <p class="hero-sub">
+      A light software factory for coding agents. <strong>PRD in, reviewed draft PRs out.</strong>
+      You make the decisions and approve the plan. Agents build and review unattended,
+      and stop at a draft PR. You merge.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">2</div>
+        <div class="lbl">Lanes, hard ceiling</div>
+      </div>
+      <div class="stat">
+        <div class="num">2</div>
+        <div class="lbl">Review rounds, then you</div>
+      </div>
+      <div class="stat">
+        <div class="num">0</div>
+        <div class="lbl">Merges by an agent</div>
+      </div>
+    </div>
+
+    <div class="link-row">
+      <a class="primary" href="https://github.com/lmagsino/ai-light-factory" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a href="https://github.com/lmagsino/ai-light-factory/tree/main/docs" target="_blank" rel="noopener">Docs ↗</a>
+      <a href="https://github.com/lmagsino/ai-light-factory/releases/tag/v0.2.0" target="_blank" rel="noopener">v0.2.0 release ↗</a>
+    </div>
+
+    <figure class="plate">
+      <img src="/assets/projects/ai-light-factory/line.svg?v=bc13aaa4" width="1200" height="560" alt="The line: you write a PRD; the Architect (grill-with-docs) settles the decisions; the Planner writes the plan (agent-skills plan) and publishes tickets with blocking edges (to-tickets); the dev loop, where one agent builds, an agent from another vendor reviews, and a PR Guardian answers review threads, opens draft PRs; the Verifier (/alf:verify) checks every flag state; you merge.">
+      <figcaption>The line. Dashed boxes are agents, solid boxes are you, and every &#9670; is a gate you approve.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<footer>
+  <div class="wrap reveal">
+    <div class="close-line">The agents draft. You merge.</div>
+    <div class="contact-grid">
+      <a href="/">&larr; Back to portfolio</a>
+      <a href="mailto:leo.magsino819@gmail.com">leo.magsino819@gmail.com</a>
+      <a href="https://www.linkedin.com/in/leomagsinojr/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/lmagsino" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
