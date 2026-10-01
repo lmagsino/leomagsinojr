@@ -339,6 +339,19 @@
   .site-card.nolink{cursor:default;}
   .site-card.nolink:hover{border-color:var(--line);}
 
+  /* A lone card in a trio grid reads as unfinished, so a single project
+     gets the full row: same card parts, laid side by side. */
+  .site-grid.solo{grid-template-columns:1fr;}
+  .site-card.feature{display:grid; grid-template-columns:1.15fr 1fr;}
+  .site-card.feature .site-preview{
+    aspect-ratio:auto;
+    height:100%;
+    min-height:260px;
+    border-right:1px solid var(--line);
+  }
+  .site-card.feature .site-preview img{object-position:left center;}
+  .site-card.feature .site-foot{padding:var(--s6);}
+
 
   /* ---------- STACK: echoes the hero's spec block ---------- */
   .skill-grid{
@@ -426,6 +439,14 @@
   @media (max-width:640px){
     header.hero{padding:var(--s16) 0 var(--s12);}
     .site-grid, .site-grid.trio{grid-template-columns:1fr;}
+    .site-card.feature{grid-template-columns:1fr;}
+    .site-card.feature .site-preview{
+      aspect-ratio:1232 / 700;
+      height:auto;
+      min-height:0;
+      border-right:none;
+    }
+    .site-card.feature .site-foot{padding:var(--s4);}
     .skill-grid{columns:1;}   /* grid-template-columns is a no-op on a columns layout */
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
@@ -615,6 +636,7 @@
         </div>
       </a>
     </div>
+
   </div>
 </section>
 
