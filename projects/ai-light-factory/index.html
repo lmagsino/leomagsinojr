@@ -508,6 +508,66 @@ DONE   T1.2 #59 Export schema     #58 77e01ab   -            draft, swept       
   </div>
 </section>
 
+<section id="guardrails">
+  <div class="wrap reveal">
+    <div class="eyebrow">Guardrails</div>
+    <h2>Enforced by code, not by prompts</h2>
+    <div class="prose">
+      <p>Plenty of tools have an agent write code. This project is about the guardrails around the agents, and wherever possible each one is a script, a shim, a hook or a file rather than a sentence a model might skip.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Guarantee</th><th>How it&rsquo;s enforced</th></tr></thead>
+        <tbody>
+          <tr><td>Stops at a draft PR</td><td class="dim">Every worker runs with <code>git</code> and <code>gh</code> shims first on its PATH, and the guard refuses merge, ready, approve, non-draft PRs, pushes to the integration branch and force-pushes without a lease. Claude Code sessions get the same check as a <code>PreToolUse</code> hook covering Bash and MCP tools, including the Orchestrator while a run is live. Your own sessions are untouched.</td></tr>
+          <tr><td>Green tests or no PR</td><td class="dim">The Developer&rsquo;s ship step squashes, re-runs the full suite and opens a draft only from green. Red means a failure report with evidence, and no PR.</td></tr>
+          <tr><td>A second vendor reviews</td><td class="dim">The Reviewer&rsquo;s findings must start with a canary line, or the review counts as not run. A same-vendor pairing is flagged on every PR.</td></tr>
+          <tr><td>Bounded spend</td><td class="dim">A third lane is refused, new lanes stop once the ticket budget has drafts, Claude seats run with dollar and turn caps, and every worker sits behind a wait timeout that turns silence into a board row.</td></tr>
+          <tr><td>No silent skills</td><td class="dim">Dispatch refuses a seat whose instruction files aren&rsquo;t absolute paths that exist. A worker that ends without its status line is recorded as NOT RUN, never as a pass.</td></tr>
+          <tr><td>The Verifier checks the world</td><td class="dim">It drives the running app in every flag state &mdash; off, on with the setting off, on with the setting on &mdash; and records each journey as PASS, FAIL, NOT RUN or N/A with an artefact. An OFF row that wasn&rsquo;t run makes the whole verdict &ldquo;not verified&rdquo;.</td></tr>
+          <tr><td>Clean-up never loses work</td><td class="dim">Seats are named worktrees, swept at the start of every run, and a tree with uncommitted or unpushed work is never removed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p style="margin-top:var(--s6)">A smoke suite tests every guardrail that lives in code against fixtures, including a non-Claude agent that tries to push to main, merge, and open a non-draft PR. CI runs it on Linux and on macOS&rsquo;s stock bash 3.2.</p>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap reveal">
+    <div class="eyebrow">Rules</div>
+    <h2>Five rules and one habit</h2>
+    <div class="prose">
+      <p>I arrived at these by running agent lines on real codebases and watching where they went wrong. Each one exists because breaking it cost something.</p>
+      <ol class="numbered">
+        <li><strong>Never guess for the human.</strong> The line may stop and wait for you, but it never fills a gap in your decisions with its own guess, because a guess that reads as a decision gets built, reviewed and merged exactly as written.</li>
+        <li><strong>Questions belong on the ticket.</strong> A question about what the work should be is a planning defect, not a runtime event. It goes back upstream and onto the ticket, not into a run.</li>
+        <li><strong>No evidence, no block.</strong> A claim that something is missing or broken is checked against the repo before anyone acts on it. The search that returns nothing is the evidence.</li>
+        <li><strong>Stack on open work.</strong> An unmerged dependency is a base branch, not a blocker.</li>
+        <li><strong>Two review rounds, then a human.</strong> If two rounds haven&rsquo;t converged, a third won&rsquo;t either.</li>
+      </ol>
+      <p style="margin-top:var(--s6)">And the habit: <strong>check the effect, not the message.</strong> Treat your own agents&rsquo; reports the way you treat code. After any step that changes something outside the session, look at the result itself &mdash; run <code>gh pr view</code> instead of trusting &ldquo;PR created!&rdquo;.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="wrap reveal">
+    <div class="eyebrow">Cost</div>
+    <h2>Pay at creation, not at inspection</h2>
+    <div class="prose">
+      <p>A defect that survives to a human costs a review, a fix, a re-review and a round trip: three or four agent sessions. Preventing it costs one extra effort step on one session. <strong>Model is the expensive dial and effort is the cheap one</strong>, so savings come from putting cheap seats on smaller models, never from making a seat that judges think less.</p>
+      <p>That shapes the defaults. Deciding and planning run in your own session at high effort, because nothing re-examines them until the Verifier. The Orchestrator is the only medium-effort seat, because it follows procedure rather than making judgements. In the reference setup, Claude Code fills the Developer, Guardian and Verifier seats and Codex fills the Reviewer seat, all at high effort &mdash; and every seat is pinned in config, so lowering your session default to save tokens can&rsquo;t silently downgrade them.</p>
+      <p>The rest of the defaults keep a week&rsquo;s allowance inside a week: two lanes as a hard ceiling; workers that report one status line and a file path instead of their output; waiting in a background shell rather than in turns; test output written to files; the Guardian batched; and the Developer and Reviewer never batched, because fresh context is the Reviewer&rsquo;s product.</p>
+      <p><code>alf-stats</code> reports sessions per ticket and cost per drafted ticket, and <strong>merging is the measurement</strong>: a draft only counts as a success once a human has merged it. If sessions per ticket climb well above four, the loop&rsquo;s retro mode traces which stage is leaking work into it.</p>
+    </div>
+  </div>
+</section>
+
 </article>
 
 <footer>
