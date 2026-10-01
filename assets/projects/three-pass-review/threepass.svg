@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="720" viewBox="0 0 1400 720" role="img" aria-labelledby="t d">
+  <title id="t">How Three-Pass Review reviews a pull request</title>
+  <desc id="d">A pull request's diff, title and body go to a context builder that parses the hunks, excerpts the head version around them and loads the conventions files into one frozen input. A cost ceiling estimates the price of every call before any is made; it shrinks context, skips the architecture pass, or refuses with exit code 3 rather than overspend. Three passes, correctness, security and data safety, and architecture and conventions, review the same frozen input in parallel with no shared state and never see each other's output. A deterministic reconciler validates, merges duplicates, scores cross-pass agreement, applies a confidence threshold, ranks and caps the findings into one comment that reports its cost per pass. An eval harness measures recall, precision and cost on a public dataset.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="inkfill"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .bg { fill: #FCFAF5; } .card { fill: #ffffff; stroke: #d5dce1; stroke-width: 1.5; }
+    .ink { fill: #15202b; } .muted { fill: #56636f; } .faint { fill: #6e7a85; }
+    .line { stroke: #15202b; stroke-width: 2; fill: none; } .inkfill { fill: #15202b; }
+    .dash { stroke: #a9b4bd; stroke-width: 1.5; stroke-dasharray: 5 6; }
+    .g { fill: #17794a; } .gbg { fill: #e6f4ec; } .gs { stroke: #17794a; }
+    .v { fill: #5a35a2; } .vbg { fill: #efe9f9; } .vs { stroke: #5a35a2; }
+    .b { fill: #1f5fa8; } .bbg { fill: #e7effa; } .bs { stroke: #1f5fa8; }
+    .a { fill: #845400; } .abg { fill: #fcf1da; } .as { stroke: #b07a12; }
+    .chip { fill: #15202b; } .chiptext { fill: #ffffff; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="1400" height="720" rx="18"/>
+
+  <text class="ink" x="48" y="62" font-size="27" font-weight="700">One diff, three independent passes, one comment</text>
+  <text class="muted" x="48" y="92" font-size="16">Untrusted input in. A ranked review with its cost out. No pass ever sees another pass's output.</text>
+
+  <!-- 1. Pull request -->
+  <rect class="card" x="40" y="280" width="170" height="160" rx="12"/>
+  <text class="ink" x="125" y="318" font-size="18" font-weight="700" text-anchor="middle">Pull request</text>
+  <text class="muted" x="125" y="350" font-size="15" text-anchor="middle">unified diff</text>
+  <text class="muted" x="125" y="374" font-size="15" text-anchor="middle">title + body</text>
+  <text class="muted" x="125" y="398" font-size="15" text-anchor="middle">head checkout</text>
+  <text class="faint" x="125" y="424" font-size="13" font-style="italic" text-anchor="middle">treated as untrusted</text>
+
+  <!-- 2. Context builder -->
+  <rect class="card" x="250" y="270" width="200" height="180" rx="12"/>
+  <text class="ink" x="350" y="308" font-size="18" font-weight="700" text-anchor="middle">Context builder</text>
+  <text class="muted" x="350" y="340" font-size="15" text-anchor="middle">parse files + hunks</text>
+  <text class="muted" x="350" y="364" font-size="15" text-anchor="middle">excerpt around hunks</text>
+  <text class="muted" x="350" y="388" font-size="15" text-anchor="middle">load conventions files</text>
+  <rect class="chip" x="290" y="406" width="120" height="28" rx="14"/>
+  <text class="chiptext" x="350" y="425" font-size="14" font-weight="600" text-anchor="middle">frozen input</text>
+
+  <!-- 3. Cost ceiling -->
+  <rect class="abg as" x="490" y="270" width="200" height="180" rx="12" stroke-width="2"/>
+  <text class="a" x="590" y="308" font-size="18" font-weight="700" text-anchor="middle">Cost ceiling</text>
+  <text class="ink" x="590" y="340" font-size="15" text-anchor="middle">estimate every call</text>
+  <text class="ink" x="590" y="364" font-size="15" text-anchor="middle">shrink context if over</text>
+  <text class="ink" x="590" y="388" font-size="15" text-anchor="middle">skip a pass if still over</text>
+  <text class="ink" x="590" y="412" font-size="15" text-anchor="middle">else refuse (exit 3)</text>
+  <text class="a" x="590" y="436" font-size="13" font-style="italic" text-anchor="middle">before any API call</text>
+
+  <!-- 4. Passes -->
+  <rect class="gbg gs" x="750" y="130" width="280" height="120" rx="12" stroke-width="2"/>
+  <text class="g" x="890" y="170" font-size="19" font-weight="700" text-anchor="middle">Correctness</text>
+  <text class="ink" x="890" y="200" font-size="15" text-anchor="middle">Does it do what the PR says?</text>
+  <text class="muted" x="890" y="226" font-size="14" text-anchor="middle">edge cases · error paths · contracts</text>
+
+  <rect class="vbg vs" x="750" y="300" width="280" height="120" rx="12" stroke-width="2"/>
+  <text class="v" x="890" y="340" font-size="19" font-weight="700" text-anchor="middle">Security &amp; data safety</text>
+  <text class="ink" x="890" y="370" font-size="15" text-anchor="middle">Can it be exploited or leak data?</text>
+  <text class="muted" x="890" y="396" font-size="14" text-anchor="middle">injection · authz · SSRF · PII · secrets</text>
+
+  <rect class="bbg bs" x="750" y="470" width="280" height="120" rx="12" stroke-width="2"/>
+  <text class="b" x="890" y="510" font-size="19" font-weight="700" text-anchor="middle">Architecture</text>
+  <text class="ink" x="890" y="540" font-size="15" text-anchor="middle">Does it fit this codebase?</text>
+  <text class="muted" x="890" y="566" font-size="14" text-anchor="middle">layering · duplication · your conventions</text>
+
+  <line class="dash" x1="765" y1="275" x2="1015" y2="275"/>
+  <line class="dash" x1="765" y1="445" x2="1015" y2="445"/>
+  <rect class="bg" x="796" y="264" width="188" height="22"/>
+  <text class="faint" x="890" y="280" font-size="13" font-style="italic" text-anchor="middle">isolated · run in parallel</text>
+  <rect class="bg" x="796" y="434" width="188" height="22"/>
+  <text class="faint" x="890" y="450" font-size="13" font-style="italic" text-anchor="middle">isolated · run in parallel</text>
+
+  <!-- 5. Reconciler -->
+  <rect class="card" x="1070" y="250" width="160" height="220" rx="12"/>
+  <text class="ink" x="1150" y="288" font-size="18" font-weight="700" text-anchor="middle">Reconciler</text>
+  <text class="faint" x="1150" y="310" font-size="13" font-style="italic" text-anchor="middle">deterministic</text>
+  <text class="muted" x="1150" y="340" font-size="15" text-anchor="middle">validate</text>
+  <text class="muted" x="1150" y="364" font-size="15" text-anchor="middle">merge duplicates</text>
+  <text class="muted" x="1150" y="388" font-size="15" text-anchor="middle">score agreement</text>
+  <text class="muted" x="1150" y="412" font-size="15" text-anchor="middle">threshold</text>
+  <text class="muted" x="1150" y="436" font-size="15" text-anchor="middle">rank + cap</text>
+
+  <!-- 6. Output -->
+  <rect class="chip" x="1262" y="290" width="112" height="140" rx="12"/>
+  <text class="chiptext" x="1318" y="328" font-size="17" font-weight="700" text-anchor="middle">One</text>
+  <text class="chiptext" x="1318" y="350" font-size="17" font-weight="700" text-anchor="middle">comment</text>
+  <text class="chiptext" x="1318" y="380" font-size="13" text-anchor="middle">ranked findings</text>
+  <text class="chiptext" x="1318" y="400" font-size="13" text-anchor="middle">+ cost per pass</text>
+
+  <!-- arrows -->
+  <line class="line" x1="210" y1="360" x2="244" y2="360" marker-end="url(#arrow)"/>
+  <line class="line" x1="450" y1="360" x2="484" y2="360" marker-end="url(#arrow)"/>
+  <path class="line" d="M690 360 H718 V190 H744" marker-end="url(#arrow)"/>
+  <path class="line" d="M718 360 H744" marker-end="url(#arrow)"/>
+  <path class="line" d="M718 360 V530 H744" marker-end="url(#arrow)"/>
+  <path class="line" d="M1030 190 H1050 V530 H1030"/>
+  <path class="line" d="M1030 360 H1064" marker-end="url(#arrow)"/>
+  <line class="line" x1="1230" y1="360" x2="1256" y2="360" marker-end="url(#arrow)"/>
+
+  <!-- eval band -->
+  <rect class="card" x="40" y="626" width="1334" height="64" rx="12"/>
+  <text class="ink" x="64" y="665" font-size="16" font-weight="700">Measured, not claimed:</text>
+  <text class="muted" x="250" y="665" font-size="16">a public eval reports recall, precision and cost per pass, with 95% intervals, against chained and single-pass baselines.</text>
+</svg>
