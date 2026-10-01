@@ -217,6 +217,68 @@
     white-space:nowrap;
   }
 
+  /* Numbered like the repo's docs, but the numerals carry the accent the
+     stat row uses, so the list reads as part of the page. */
+  ol.numbered{list-style:none; counter-reset:n; margin-top:var(--s4);}
+  ol.numbered li{
+    counter-increment:n;
+    position:relative;
+    padding:var(--s3) 0 var(--s3) var(--s8);
+    border-top:1px solid var(--line);
+  }
+  ol.numbered li:last-child{border-bottom:1px solid var(--line);}
+  ol.numbered li::before{
+    content:counter(n);
+    position:absolute; left:0; top:var(--s3);
+    font-variation-settings:'opsz' 40;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{margin-top:var(--s6); overflow-x:auto;}
+  table.spec{width:100%; border-collapse:collapse; min-width:600px;}
+  table.spec th{
+    text-align:left;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    padding:0 var(--s4) var(--s2) 0;
+    border-bottom:1px solid var(--line-strong);
+  }
+  table.spec td{
+    padding:var(--s3) var(--s4) var(--s3) 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.spec td:first-child{font-weight:600; white-space:nowrap;}
+  table.spec .skill{
+    display:block;
+    margin-top:var(--s1);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--accent);
+  }
+  table.spec .dim{color:var(--ink-dim);}
+
+  /* ---------- CODE ---------- */
+  pre{
+    margin-top:var(--s6);
+    padding:var(--s4);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    overflow-x:auto;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    line-height:1.7;
+    color:var(--ink);
+  }
+  pre .c{color:var(--ink-dim);}
+  pre.board{font-size:11px; line-height:1.6;}
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -341,6 +403,108 @@
       <p>This project takes the light side literally. Your judgement moves to where it pays off: you settle the decisions and approve the plan before any code exists, agents build and review unattended, and you read every diff before it merges.</p>
       <p>The line never marks a pull request ready, never approves, and never merges. That isn&rsquo;t a sentence in a prompt that a model might decide to skip. A guard hook and a pair of <code>git</code> and <code>gh</code> shims refuse those commands for every worker, whatever agent it runs.</p>
     </div>
+  </div>
+</section>
+
+<section id="line">
+  <div class="wrap reveal">
+    <div class="eyebrow">How it works</div>
+    <h2>The line</h2>
+    <div class="prose">
+      <p>A factory isn&rsquo;t for speed. It exists so that <strong>the same mistake cannot be made twice quietly</strong>. Every stage writes an artefact to a known path, and the next stage reads it instead of re-deriving it. When something goes wrong, you can name the stage that should have caught it, and put the check there.</p>
+      <p>The alternative is one long agent session that reads, decides, plans, builds and reviews without ever writing down what it concluded. That works until it doesn&rsquo;t, and when it doesn&rsquo;t, there is nothing to inspect.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Stage</th><th>Agent and skill</th><th>Leaves behind</th><th>You decide</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1 &middot; Decide</td>
+            <td>Architect<span class="skill">grill-with-docs &middot; Matt Pocock</span></td>
+            <td class="dim">ADRs and a glossary</td>
+            <td><em>Do the decisions hold?</em></td>
+          </tr>
+          <tr>
+            <td>2&ndash;3 &middot; Plan</td>
+            <td>Planner<span class="skill">agent-skills:plan &middot; Addy Osmani</span><span class="skill">to-tickets &middot; Matt Pocock</span></td>
+            <td class="dim">A plan, then GitHub issues with acceptance criteria and blocking edges</td>
+            <td><em>Right plan? Right tickets and edges?</em></td>
+          </tr>
+          <tr>
+            <td>4 &middot; Dev loop</td>
+            <td>Developer, Reviewer, PR Guardian<span class="skill">/alf:dev-loop</span></td>
+            <td class="dim">Squashed draft PRs, a live board, a ledger</td>
+            <td>Nothing. It runs unattended</td>
+          </tr>
+          <tr>
+            <td>5 &middot; Verify</td>
+            <td>Verifier<span class="skill">/alf:verify</span></td>
+            <td class="dim">A verdict for every feature-flag state</td>
+            <td><em>Merge.</em> Always yours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <h3>Three cadences, not one pass</h3>
+      <p>Deciding, planning and ticketing happen once per project. The dev loop runs continuously, a ticket at a time per lane, through a parent issue or milestone. The Verifier runs once per milestone. Mixing these up is the common failure: a Verifier run per ticket is theatre, because until a phase is nearly done there is nothing end to end to exercise, and re-opening decisions per ticket produces a plan that contradicts itself.</p>
+
+      <h3>What each stage is really for</h3>
+      <p>None of the stages is mainly for what its name suggests. <strong>Deciding is corrective:</strong> it catches the requirement that would have been built exactly as written, because it read like a decision already made. <strong>Planning is arithmetical:</strong> it catches the plan that is internally inconsistent, which only becomes visible once the dependency graph is written down as real edges. <strong>The dev loop is compressive:</strong> its value isn&rsquo;t that it writes code, but that a ticket reaches you already reviewed, swept and squashed, so your attention goes to the diff rather than the process. <strong>The Verifier is falsifying:</strong> it is the only stage whose job is to find out that the plan was wrong. Everything before it checks internal consistency. The Verifier checks the world.</p>
+    </div>
+  </div>
+</section>
+
+<section id="dev-loop">
+  <div class="wrap reveal">
+    <div class="eyebrow">The dev loop</div>
+    <h2>Unattended, and still accountable</h2>
+    <div class="prose">
+      <p>The dev loop is the part no existing skill pack covered, and the reason the project exists. Your session becomes the Orchestrator. It owns the queue of ready tickets, the base branches, the board and the budget, and it never edits a file, never reads a full diff, never builds and never reviews. It dispatches seats and reads one-line results. Each seat is a named git worktree &mdash; Developer, Developer-2, Reviewer, Guardian &mdash; with an agent of your choice in it.</p>
+
+      <h3>Nothing left to ask</h3>
+      <p>Before a ticket gets a seat, a readiness gate checks it. A ticket without a clear &ldquo;what to build&rdquo;, checkbox acceptance criteria free of TBDs, and explicit blocked-by edges is refused, labelled as needing a decision, and sent back upstream. That is why the dev loop never asks you a question mid-run: every decision you could make was taken while deciding, and written into the ticket. Anything it would want to ask is an upstream defect, recorded on the board and on the issue while the run carries on.</p>
+
+      <h3>Build, then a review from another vendor</h3>
+      <p>The Developer builds one ticket test-first, following Addy Osmani&rsquo;s incremental-implementation and test-driven-development skills. It squashes, re-runs the full suite, and opens a draft only from green. The Reviewer then reads the diff with fresh context, on a different vendor, following code-review-and-quality plus three reach questions an ordinary review skips: does the change alter an outward contract, does it touch code that other paths run through, and does it undo a decision that was made on purpose?</p>
+      <p>Findings go through a severity ladder instead of to you. Critical findings are fixed. Important ones are fixed when the fix is small, and otherwise listed in the PR body for you. Suggestions are dropped with a one-line reason. Every call lands in the PR&rsquo;s decision log, so what the loop decided without you is auditable exactly where you are already looking. If round one kept nothing, the ticket ships. If it kept something, the Developer fixes it and the same Reviewer reads only the delta. A Critical that survives round two parks the lane: two review rounds, then a human.</p>
+
+      <h3>Five reasons to stop, and none of them is a question</h3>
+      <p>A lane stops for five things only:</p>
+      <ol class="numbered">
+        <li>The Reviewer says the approach is wrong.</li>
+        <li>A fix would touch a contract, a registry or a migration the ticket didn&rsquo;t ask for.</li>
+        <li>A Critical finding survives round two.</li>
+        <li>A previously passing test fails for a reason outside the diff.</li>
+        <li>The base branch moved underneath the lane.</li>
+      </ol>
+      <p style="margin-top:var(--s4)">Each one is a fact that makes the lane unable to proceed. A stopped lane becomes a parked row with the evidence posted on its issue, and every other lane keeps running. A worker that hits a cap, dies, goes silent or never reports parks its lane too, with its log. Nothing is re-dispatched silently.</p>
+
+      <h3>Stack on open work</h3>
+      <p>A dependency on an unmerged pull request is a base branch, not a blocker. The loop branches off the open parent, reviews against it and bases the PR on it, so a milestone keeps moving while drafts wait for you. Four places have to agree on the base &mdash; the commit count, the branch point, the review diff and the PR base &mdash; or the review reads the parent&rsquo;s commits as if they belonged to this change.</p>
+
+      <h3>The PR Guardian</h3>
+      <p>Once drafts are open, review threads arrive from bots and from people. The PR Guardian sweeps them in batches of about five, because most of a short session is startup cost. It triages each thread with the same ladder, fixes what qualifies, replies to every thread it touches with what it did and why, and rebases stacked PRs whose parent moved. It answers questions about the code from the code, leaves questions about what the work should be for you, and never marks a PR ready.</p>
+
+      <h3>One screen to read</h3>
+      <p>While the loop runs, the board is the only thing you need to read. It is ordered by what needs you, and it checks that every claimed worker is actually alive before printing it.</p>
+    </div>
+
+<pre class="board" aria-label="Example dev loop board">2026-10-01-m1-export-foundation  Thu 01 Oct 21:14
+------------------------------------------------------------------------------------------------------------------------
+FLAG   TICKET                     PR / SHA      SEAT         STATE                       NEXT
+------------------------------------------------------------------------------------------------------------------------
+PARK   T1.4 #61 Currency rounding #64 a19f003   -            round 2: Critical survives  needs you
+LANE   T1.5 #62 CSV writer        -             Reviewer     review round 1              judge findings
+LANE   T1.6 #63 Column registry   -             Developer-2  building                    review
+SWEEP  T1.3 #60 Export job        #66 3bf66cd   Guardian     1 bot thread                verify push
+WAIT   T1.7 #65 Retry policy      -             -            blocked by #63              -
+DONE   T1.2 #59 Export schema     #58 77e01ab   -            draft, swept                you read it
+------------------------------------------------------------------------------------------------------------------------
+2 advancing · 1 sweeping · 1 needs you · 1 waiting · 1 done     lanes 2/2 · guardian 1/2 · drafted 3/4 · $11.40</pre>
+    <p class="caption">An example board: one lane parked for you, two advancing, one draft being swept.</p>
   </div>
 </section>
 
