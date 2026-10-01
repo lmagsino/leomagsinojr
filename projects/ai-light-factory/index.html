@@ -180,6 +180,43 @@
     color:var(--ink-dim);
   }
 
+  /* ---------- ARTICLE ---------- */
+  article section{padding:var(--s16) 0; border-bottom:1px solid var(--line);}
+  article h2{
+    font-size:var(--t-h2);
+    font-variation-settings:'opsz' 40;
+    font-weight:600;
+    letter-spacing:-0.008em;
+    line-height:1.2;
+    margin-top:var(--s3);
+    margin-bottom:var(--s4);
+    max-width:var(--measure);
+  }
+  .prose{max-width:var(--measure);}
+  .prose p, .prose li{
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
+  }
+  .prose p + p{margin-top:var(--s4);}
+  .prose h3{
+    font-size:var(--t-title);
+    font-weight:600;
+    letter-spacing:-0.004em;
+    line-height:1.3;
+    margin-top:var(--s8);
+    margin-bottom:var(--s2);
+  }
+  .prose strong{font-weight:600;}
+  .prose em{font-style:italic;}
+  .prose a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px;}
+  .prose a:hover{color:var(--ink);}
+  code{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:0.8em;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -222,6 +259,7 @@
     .stat + .stat{padding-left:0;}
     .stat:last-child{border-bottom:none;}
     figure.plate{padding:var(--s3);}
+    article section{padding:var(--s12) 0;}
   }
 
   a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
@@ -270,6 +308,43 @@
     </figure>
   </div>
 </header>
+
+<article>
+
+<section id="why">
+  <div class="wrap reveal">
+    <div class="eyebrow">Why</div>
+    <h2>Why I built it</h2>
+    <div class="prose">
+      <p>Over the past year my work as a tech lead moved from &ldquo;an engineer with an AI pair&rdquo; to &ldquo;an engineer running a line of agents&rdquo;. The agents got good enough to take a ticket from description to pull request. What they didn&rsquo;t do was make the work trustworthy on their own. Running a line like that on a production codebase taught me three things, and each one became a default here.</p>
+
+      <h3>The bottleneck moves</h3>
+      <p>Agents write code faster than anyone can read it. Once typing stops being the constraint, deciding, reviewing and verifying become it. So the guardrails belong on decisions, review and verification, not on code generation.</p>
+
+      <h3>Unlimited parallelism is a trap</h3>
+      <p>Run wide open, a fleet of agents burns a week of model budget in days and opens more pull requests than any human can review. Every extra worker grows its own context, and the coordinator&rsquo;s with it. Two lanes is the ceiling, and it is not a starting point to tune upward.</p>
+
+      <h3>A reviewer from the same vendor shares the builder&rsquo;s blind spots</h3>
+      <p>When the model that wrote the code also reviews it, its misses are silent: the review passes because both passes share the same gaps. So the Reviewer seat runs on a different vendor by design, and if you put the same vendor in both seats, every PR says so.</p>
+
+      <p>AI Light Factory is that line, rebuilt from scratch for open source, so any team can run it with whichever agents they already use.</p>
+    </div>
+  </div>
+</section>
+
+<section id="light">
+  <div class="wrap reveal">
+    <div class="eyebrow">The idea</div>
+    <h2>Light, not dark</h2>
+    <div class="prose">
+      <p>Addy Osmani drew the distinction in <a href="https://addyosmani.com/blog/software-factories/" target="_blank" rel="noopener">Software Factories, Light and Dark</a>. A <em>dark</em> factory ships code that no human has read. A <em>light</em> factory keeps a human in the loop, and gives a loop only as much autonomy as you can cheaply and reliably verify.</p>
+      <p>This project takes the light side literally. Your judgement moves to where it pays off: you settle the decisions and approve the plan before any code exists, agents build and review unattended, and you read every diff before it merges.</p>
+      <p>The line never marks a pull request ready, never approves, and never merges. That isn&rsquo;t a sentence in a prompt that a model might decide to skip. A guard hook and a pair of <code>git</code> and <code>gh</code> shims refuse those commands for every worker, whatever agent it runs.</p>
+    </div>
+  </div>
+</section>
+
+</article>
 
 <footer>
   <div class="wrap reveal">
