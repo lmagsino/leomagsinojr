@@ -321,6 +321,21 @@
     .stat + .stat{padding-left:0;}
     .stat:last-child{border-bottom:none;}
     figure.plate{padding:var(--s3);}
+    /* Rows stack on phones, so the right-hand columns are not scrolled out of view. */
+    table.spec{min-width:0;}
+    table.spec thead{display:none;}
+    table.spec tr{display:block; padding:var(--s3) 0; border-bottom:1px solid var(--line);}
+    table.spec td{display:block; border:none; padding:var(--s1) 0;}
+    table.spec td:first-child{white-space:normal;}
+    table.spec td[data-label]::before{
+      content:attr(data-label);
+      display:block;
+      font-family:'JetBrains Mono', ui-monospace, monospace;
+      font-size:var(--t-micro);
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--ink-dim);
+    }
     article section{padding:var(--s12) 0;}
   }
 
@@ -421,27 +436,27 @@
         <tbody>
           <tr>
             <td>1 &middot; Decide</td>
-            <td>Architect<span class="skill">grill-with-docs &middot; Matt Pocock</span></td>
-            <td class="dim">ADRs and a glossary</td>
-            <td><em>Do the decisions hold?</em></td>
+            <td data-label="Agent and skill">Architect<span class="skill">grill-with-docs &middot; Matt Pocock</span></td>
+            <td data-label="Leaves behind" class="dim">ADRs and a glossary</td>
+            <td data-label="You decide"><em>Do the decisions hold?</em></td>
           </tr>
           <tr>
             <td>2&ndash;3 &middot; Plan</td>
-            <td>Planner<span class="skill">agent-skills:plan &middot; Addy Osmani</span><span class="skill">to-tickets &middot; Matt Pocock</span></td>
-            <td class="dim">A plan, then GitHub issues with acceptance criteria and blocking edges</td>
-            <td><em>Right plan? Right tickets and edges?</em></td>
+            <td data-label="Agent and skill">Planner<span class="skill">agent-skills:plan &middot; Addy Osmani</span><span class="skill">to-tickets &middot; Matt Pocock</span></td>
+            <td data-label="Leaves behind" class="dim">A plan, then GitHub issues with acceptance criteria and blocking edges</td>
+            <td data-label="You decide"><em>Right plan? Right tickets and edges?</em></td>
           </tr>
           <tr>
             <td>4 &middot; Dev loop</td>
-            <td>Developer, Reviewer, PR Guardian<span class="skill">/alf:dev-loop</span></td>
-            <td class="dim">Squashed draft PRs, a live board, a ledger</td>
-            <td>Nothing. It runs unattended</td>
+            <td data-label="Agent and skill">Developer, Reviewer, PR Guardian<span class="skill">/alf:dev-loop</span></td>
+            <td data-label="Leaves behind" class="dim">Squashed draft PRs, a live board, a ledger</td>
+            <td data-label="You decide">Nothing. It runs unattended</td>
           </tr>
           <tr>
             <td>5 &middot; Verify</td>
-            <td>Verifier<span class="skill">/alf:verify</span></td>
-            <td class="dim">A verdict for every feature-flag state</td>
-            <td><em>Merge.</em> Always yours</td>
+            <td data-label="Agent and skill">Verifier<span class="skill">/alf:verify</span></td>
+            <td data-label="Leaves behind" class="dim">A verdict for every feature-flag state</td>
+            <td data-label="You decide"><em>Merge.</em> Always yours</td>
           </tr>
         </tbody>
       </table>
