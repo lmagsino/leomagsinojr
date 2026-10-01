@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three-Pass Review — Leodegario Magsino Jr.</title>
+<meta name="description" content="A code review process for teams where AI writes much of the code: two AI passes on every pull request, and an AI reviewer brief plus two people only where a mistake would really hurt. An open-source project by Leodegario Magsino Jr.">
+<meta name="author" content="Leodegario Magsino Jr.">
+<meta name="theme-color" content="#F1ECE1">
+
+<!-- Same caveat as the home page: make og:image absolute once the domain is
+     attached, or LinkedIn will not resolve it. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Leodegario Magsino Jr.">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Three-Pass Review — AI reads every line, people own the risk">
+<meta property="og:description" content="Copilot on every push, a light AI review on every PR, and on risky PRs an AI reviewer brief before two people sign off. The AI never approves.">
+<meta property="og:image" content="/assets/previews/three-pass-review.jpg?v=1e7ae70a">
+<meta property="og:image:width" content="1232">
+<meta property="og:image:height" content="700">
+<meta property="og:image:alt" content="Three-Pass Review — two AI passes on every PR, a third only where it would hurt. AI reads every line. People own the risk.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Three-Pass Review — AI reads every line, people own the risk">
+<meta name="twitter:description" content="Two AI passes on every PR, a third only where it would hurt. The AI never approves.">
+<meta name="twitter:image" content="/assets/previews/three-pass-review.jpg?v=1e7ae70a">
+<link rel="icon" href="/assets/favicon.svg?v=2acbc91a" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Tokens and shared components mirror index.html; keep the two in step. */
+  :root{
+    --paper:#F1ECE1;
+    --paper-raised:#FCFAF5;
+    --ink:#221F1A;
+    --ink-dim:#6B6357;
+    --accent:#7E5D1F;
+    --accent-soft:#B79A62;
+    --line:#DCD4C1;
+    --line-strong:#C9BFA8;
+
+    --t-display:clamp(42px, 6.6vw, 72px);
+    --t-h2:30px;
+    --t-title:20px;
+    --t-lead:18px;
+    --t-body:16px;
+    --t-meta:12px;
+    --t-micro:10px;
+
+    --s1:4px;  --s2:8px;   --s3:12px;  --s4:16px;
+    --s6:24px; --s8:32px;  --s12:48px; --s16:64px;
+    --s24:96px; --s30:120px;
+
+    --max:1040px;
+    --measure:704px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Newsreader', Georgia, serif;
+    font-size:var(--t-body);
+    font-variation-settings:'opsz' 16;
+    font-weight:430;
+    font-variant-numeric:tabular-nums;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent); color:var(--paper-raised);}
+  a{color:inherit;}
+
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 var(--s6);}
+  .mono{font-family:'JetBrains Mono', ui-monospace, monospace;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:var(--s3);
+  }
+  .eyebrow::before{
+    content:'';
+    width:var(--s6); height:1px;
+    background:var(--accent-soft);
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{padding:var(--s6) 0; border-bottom:1px solid var(--line);}
+  .back{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+  .back:hover{color:var(--accent);}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:var(--s16) 0 var(--s12); border-bottom:1px solid var(--line);}
+  .hero .eyebrow{margin-bottom:var(--s6);}
+  h1{
+    font-size:var(--t-display);
+    font-variation-settings:'opsz' 72;
+    font-weight:600;
+    line-height:1.02;
+    letter-spacing:-0.012em;
+    text-wrap:balance;
+  }
+  .hero-sub{
+    margin-top:var(--s6);
+    max-width:var(--measure);
+    text-wrap:balance;
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
+    color:var(--ink-dim);
+  }
+  .hero-sub strong{color:var(--ink); font-weight:600;}
+
+  .stat-row{
+    display:flex;
+    margin-top:var(--s12);
+    border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .stat{flex:1; padding:var(--s4) 0; border-right:1px solid var(--line);}
+  .stat + .stat{padding-left:var(--s6);}
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-size:var(--t-h2);
+    font-variation-settings:'opsz' 40;
+    color:var(--accent);
+    line-height:1.2;
+  }
+  .stat .lbl{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-top:var(--s1);
+  }
+
+  .link-row{
+    margin-top:var(--s8);
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--s2);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+  }
+  .link-row a{
+    padding:var(--s3) var(--s4);
+    border:1px solid var(--line-strong);
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .link-row a:hover{border-color:var(--accent); color:var(--accent);}
+  .link-row a.primary{background:var(--accent); color:var(--paper); border-color:var(--accent);}
+  .link-row a.primary:hover{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+
+  /* ---------- FIGURES: allowed the full page width, unlike prose ---------- */
+  figure.plate{
+    margin-top:var(--s12);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:var(--s6);
+  }
+  figure.plate img{display:block; width:100%; height:auto;}
+  figure.plate figcaption, .caption{
+    margin-top:var(--s3);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+  }
+
+  /* ---------- ARTICLE ---------- */
+  article section{padding:var(--s16) 0; border-bottom:1px solid var(--line);}
+  article h2{
+    font-size:var(--t-h2);
+    font-variation-settings:'opsz' 40;
+    font-weight:600;
+    letter-spacing:-0.008em;
+    line-height:1.2;
+    margin-top:var(--s3);
+    margin-bottom:var(--s4);
+    max-width:var(--measure);
+  }
+  .prose{max-width:var(--measure);}
+  .prose p, .prose li{
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
+  }
+  .prose p + p{margin-top:var(--s4);}
+  .prose h3{
+    font-size:var(--t-title);
+    font-weight:600;
+    letter-spacing:-0.004em;
+    line-height:1.3;
+    margin-top:var(--s8);
+    margin-bottom:var(--s2);
+  }
+  .prose strong{font-weight:600;}
+  .prose em{font-style:italic;}
+  .prose a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px;}
+  .prose a:hover{color:var(--ink);}
+  code{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:0.8em;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+
+  /* Numbered like the repo's docs, but the numerals carry the accent the
+     stat row uses, so the list reads as part of the page. */
+  ol.numbered{list-style:none; counter-reset:n; margin-top:var(--s4);}
+  ol.numbered li{
+    counter-increment:n;
+    position:relative;
+    padding:var(--s3) 0 var(--s3) var(--s8);
+    border-top:1px solid var(--line);
+  }
+  ol.numbered li:last-child{border-bottom:1px solid var(--line);}
+  ol.numbered li::before{
+    content:counter(n);
+    position:absolute; left:0; top:var(--s3);
+    font-variation-settings:'opsz' 40;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{margin-top:var(--s6); overflow-x:auto;}
+  table.spec{width:100%; border-collapse:collapse; min-width:600px;}
+  table.spec th{
+    text-align:left;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    padding:0 var(--s4) var(--s2) 0;
+    border-bottom:1px solid var(--line-strong);
+  }
+  table.spec td{
+    padding:var(--s3) var(--s4) var(--s3) 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.spec td:first-child{font-weight:600; white-space:nowrap;}
+  table.spec .skill{
+    display:block;
+    margin-top:var(--s1);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--accent);
+  }
+  table.spec .dim{color:var(--ink-dim);}
+
+  /* ---------- CODE ---------- */
+  pre{
+    margin-top:var(--s6);
+    padding:var(--s4);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    overflow-x:auto;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    line-height:1.7;
+    color:var(--ink);
+  }
+  pre .c{color:var(--ink-dim);}
+  pre.board{font-size:11px; line-height:1.6;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:var(--s16) 0 var(--s12);}
+  footer .close-line{
+    font-size:var(--t-h2);
+    font-style:italic;
+    font-variation-settings:'opsz' 40;
+    font-weight:500;
+    letter-spacing:-0.008em;
+    line-height:1.25;
+    max-width:34ch;
+    margin-bottom:var(--s8);
+  }
+  .contact-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--s2);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+  }
+  .contact-grid a{
+    padding:var(--s3) var(--s4);
+    border:1px solid var(--line);
+    text-decoration:none;
+    color:var(--ink-dim);
+  }
+  .contact-grid a:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* ---------- motion ---------- */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+
+  @media (max-width:640px){
+    header.hero{padding:var(--s12) 0 var(--s8);}
+    .stat-row{flex-direction:column;}
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat + .stat{padding-left:0;}
+    .stat:last-child{border-bottom:none;}
+    figure.plate{padding:var(--s3);}
+    /* Rows stack on phones, so the right-hand columns are not scrolled out of view. */
+    table.spec{min-width:0;}
+    table.spec thead{display:none;}
+    table.spec tr{display:block; padding:var(--s3) 0; border-bottom:1px solid var(--line);}
+    table.spec td{display:block; border:none; padding:var(--s1) 0;}
+    table.spec td:first-child{white-space:normal;}
+    table.spec td[data-label]::before{
+      content:attr(data-label);
+      display:block;
+      font-family:'JetBrains Mono', ui-monospace, monospace;
+      font-size:var(--t-micro);
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--ink-dim);
+    }
+    article section{padding:var(--s12) 0;}
+  }
+
+  a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap"><a class="back" href="/">&larr; Leodegario Magsino Jr.</a></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Agentic engineering &middot; Open source</div>
+    <h1>Three-Pass Review</h1>
+    <p class="hero-sub">
+      A code review process for teams where AI writes much of the code. <strong>Two AI passes on every pull request, and a third only where a mistake would really hurt.</strong>
+      AI reads every line. People own the risk.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="lbl">Passes, effort follows risk</div>
+      </div>
+      <div class="stat">
+        <div class="num">2</div>
+        <div class="lbl">People sign off a deep PR</div>
+      </div>
+      <div class="stat">
+        <div class="num">0</div>
+        <div class="lbl">Approvals by an AI</div>
+      </div>
+    </div>
+
+    <div class="link-row">
+      <a class="primary" href="https://github.com/lmagsino/three-pass-review" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a href="https://github.com/lmagsino/three-pass-review/blob/main/guide/README.md" target="_blank" rel="noopener">The guide ↗</a>
+      <a href="https://github.com/lmagsino/three-pass-review/blob/main/guide/docs/setup.md" target="_blank" rel="noopener">Setup ↗</a>
+    </div>
+
+    <figure class="plate">
+      <img src="/assets/projects/three-pass-review/flow.svg?v=00bdd6ea" width="1200" height="640" alt="How a pull request moves through review: it triggers pass 1 (Copilot line comments), pass 2 (the light review, using Addy Osmani's skill or Claude Code's pr-review-toolkit) and a tier check. The light review can escalate. The tier check sends the PR to one approval, or to pass 3, the deep review: an AI reviewer brief, then the code owner and a second reviewer. A review-gate check enforces both before merge.">
+      <figcaption>The flow. Every PR gets passes 1 and 2; the tier check sends risky ones to pass 3, and review-gate enforces both before merge.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<article>
+
+<section id="why">
+  <div class="wrap reveal">
+    <div class="eyebrow">Why</div>
+    <h2>Why I built it</h2>
+    <div class="prose">
+      <p>Once agents write most of a pull request, review becomes the slow part. Teams answer that in one of two ways: rubber-stamp the change, or read every line as if a person had written it. Neither holds up. Running AI review on a production codebase taught me three things, and each one became part of the process.</p>
+
+      <h3>Reading every line doesn&rsquo;t scale. Judgement does.</h3>
+      <p>AI can read every line of every push, cheaply and without getting tired. What it can&rsquo;t do is own the decision. So the process gives the reading to AI and keeps the decision with people.</p>
+
+      <h3>Not every change deserves the same review</h3>
+      <p>A copy fix and a payments migration shouldn&rsquo;t get the same review. Uniform review means either rubber-stamping the dangerous change or spending an hour on the trivial one. The effort has to follow the risk.</p>
+
+      <h3>Reviewers need orientation, not more comments</h3>
+      <p>Even a good AI review hands the human a pile of comments. On a big, risky change, what a reviewer needs first is the shape of it: what it does, what it touches, what could go wrong, and where to look. That became pass 3&rsquo;s reviewer brief.</p>
+
+      <p>Three-Pass Review is that process, packaged as a guide and a kit you install into any GitHub repository.</p>
+    </div>
+  </div>
+</section>
+
+<section id="idea">
+  <div class="wrap reveal">
+    <div class="eyebrow">The idea</div>
+    <h2>Effort follows risk</h2>
+    <div class="prose">
+      <p>Every pull request gets two AI reviews of different kinds: Copilot&rsquo;s fast, line-level pass, and a structured review of the whole change. A <strong>tier check</strong>, with rules read from the base branch, decides which PRs also get the third pass. Routine PRs need one quick approval. Risky ones get an AI reviewer brief, then two careful reviewers.</p>
+      <p>The AI never approves anything. It can comment, and it can raise a PR to deep review, but nothing automated can lower a tier, and if the author removes an escalation the tier check puts it back. A required <code>review-gate</code> check turns the tiers from labels into merge rules: a light PR merges once its light review is clean on the latest commit and one person approves; a deep PR needs two approvals of the latest commit.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Pass</th><th>Who</th><th>Runs on</th><th>What you get</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1 &middot; Auto review</td>
+            <td data-label="Who">GitHub Copilot code review</td>
+            <td data-label="Runs on" class="dim">Every push</td>
+            <td data-label="What you get">Line comments with one-click fixes</td>
+          </tr>
+          <tr>
+            <td>2 &middot; Light review</td>
+            <td data-label="Who">An AI reviewer you choose<span class="skill">code-review-and-quality &middot; Addy Osmani</span><span class="skill">pr-review-toolkit &middot; Claude Code</span></td>
+            <td data-label="Runs on" class="dim">Every ready PR</td>
+            <td data-label="What you get">One verified summary, inline comments for real problems, and an escalation when the PR needs more</td>
+          </tr>
+          <tr>
+            <td>3 &middot; Deep review</td>
+            <td data-label="Who">An AI reviewer brief, then the code owner and a second reviewer<span class="skill">threepass</span></td>
+            <td data-label="Runs on" class="dim">Deep-tier PRs only</td>
+            <td data-label="What you get">The brief does the reading; people judge and sign off</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="pass-1">
+  <div class="wrap reveal">
+    <div class="eyebrow">Pass 1</div>
+    <h2>Auto review: catch the small stuff early</h2>
+    <div class="prose">
+      <p>Copilot is already in the pull request view, it&rsquo;s quick, and its suggestions commit with one click. It isn&rsquo;t the reviewer of record: it leaves comment-only reviews, so it never counts toward approvals, and path-specific instructions point it harder at the sensitive parts of the codebase. Its job is to clear the cheap mistakes before anyone spends attention on them.</p>
+    </div>
+    <figure class="plate">
+      <img src="/assets/projects/three-pass-review/pass-1-auto-review.svg?v=a12d5bb8" width="1200" height="610" loading="lazy" decoding="async" alt="Pass 1, auto review: on an example diff, Copilot comments that reviews.find returns null for an unknown ID, so review.author throws instead of returning a 404, and offers a suggested change committed with one click. It runs on every push, takes seconds to minutes, and can't approve, block or change the tier.">
+      <figcaption>Pass 1 on the running example, PR #482. Illustrative, not a real review.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="pass-2">
+  <div class="wrap reveal">
+    <div class="eyebrow">Pass 2</div>
+    <h2>Light review: a second, different AI</h2>
+    <div class="prose">
+      <p>Two copies of the same reviewer mostly repeat each other, so pass 2 is a different model with a different method. Teams choose it in the policy: <strong>Addy Osmani&rsquo;s code-review-and-quality skill</strong>, vendored at a pinned commit, or <strong>Claude Code&rsquo;s pr-review-toolkit</strong>, whose specialist agents report candidates that the reviewer verifies before posting.</p>
+      <p>Either way it follows one protocol: intent first, tests before implementation, then correctness and security, blast radius (who still calls what changed) and whether the change can be rolled back. Every finding needs evidence &mdash; a path and line, the input that triggers it, or the caller that breaks &mdash; and anything it can&rsquo;t prove goes under &ldquo;Could not verify&rdquo; instead of becoming a comment.</p>
+      <p>It returns its verdict as data. A plain script posts the summary and, on any Critical or Required finding, adds the escalate label. The model can&rsquo;t approve, push, merge or change labels, and its instructions come from the base branch, so a pull request can&rsquo;t rewrite its own reviewer.</p>
+    </div>
+    <figure class="plate">
+      <img src="/assets/projects/three-pass-review/pass-2-light-review.svg?v=477488ca" width="1200" height="620" loading="lazy" decoding="async" alt="Pass 2, light review: the team picks Addy Osmani's skill or Claude Code's pr-review-toolkit. The light reviewer checks intent, tests, correctness and security, blast radius and rollback, and posts one verified summary: dismiss() was removed but actions.ts line 88 still calls it. Clean means one approval; a Critical or Required finding escalates the PR to pass 3.">
+      <figcaption>The same PR: pass 2 finds a caller left behind and escalates it to deep review.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="pass-3">
+  <div class="wrap reveal">
+    <div class="eyebrow">Pass 3</div>
+    <h2>Deep review: the AI reads, people judge</h2>
+    <div class="prose">
+      <p>Deep reviews are where human time goes, so pass 3 starts by doing the reading. When the tier check routes a pull request deep, it starts a workflow that runs <code>threepass</code> and posts a <strong>reviewer brief</strong>, updated on every new commit. It&rsquo;s built to be read in five minutes, before anyone opens the code.</p>
+    </div>
+    <figure class="plate">
+      <img src="/assets/projects/three-pass-review/pass-3-deep-review.svg?v=0acb71be" width="1200" height="720" loading="lazy" decoding="async" alt="Pass 3, deep review: for a deep-tier PR, the AI computes a change map from the diff, writes a brief, and runs three independent checks, which become one reviewer brief pointing first at actions.ts line 88. Then the code owner and a second reviewer start from the brief, verify the tests, check contracts, confirm rollback and sign off; review-gate needs two approvals before merge.">
+      <figcaption>The top row is automated; the bottom row is people. The brief never approves or blocks.</figcaption>
+    </figure>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>In the brief</th><th>What it gives the reviewer</th></tr></thead>
+        <tbody>
+          <tr><td>The change</td><td class="dim">What the PR does and why, in plain words, and whether that matches its description</td></tr>
+          <tr><td>Change map</td><td class="dim">Areas touched, files and lines per area, and warnings for migrations, dependency, CI and infra changes and deletions. Computed from the diff, with no model, so it&rsquo;s exact</td></tr>
+          <tr><td>Impact</td><td class="dim">What changes for users, callers and operators: behaviour, API contracts, data, config, dependencies</td></tr>
+          <tr><td>Risks and rollback</td><td class="dim">What could go wrong in production, and whether a plain revert undoes it</td></tr>
+          <tr><td>Tests</td><td class="dim">Which changed behaviour the tests cover, and the gaps</td></tr>
+          <tr><td>Where to look first</td><td class="dim">Up to five places, most important first: the top findings, then the brief&rsquo;s own picks</td></tr>
+          <tr><td>Questions for the author</td><td class="dim">What the reviewer needs answered before approving</td></tr>
+          <tr><td>Sign-off draft</td><td class="dim">The deep-review note, pre-filled with rollback, test coverage and the questions, with placeholders for what only a person can confirm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p style="margin-top:var(--s6)">Then the code owner and a second reviewer take over: verify the tests would catch a regression, check every changed contract, confirm the change can be rolled back, and sign off. The draft says what the AI saw. The approval has to say what the person verified.</p>
+    </div>
+  </div>
+</section>
+
+<section id="engine">
+  <div class="wrap reveal">
+    <div class="eyebrow">The engine</div>
+    <h2>Three independent checks, measured</h2>
+    <div class="prose">
+      <p>The findings inside the brief come from <code>threepass</code>, a Ruby CLI in the same repository. It splits review into three checks &mdash; correctness, security and data safety, and architecture &mdash; that run in parallel on one frozen input and never see each other&rsquo;s output. A reviewer shown earlier findings tends to anchor on them; three independent reads turn agreement into a signal. When two checks flag the same lines on their own, their combined confidence goes up.</p>
+      <p>A deterministic reconciler validates every finding against the diff, merges duplicates, scores agreement, drops low-confidence findings and caps the list, so the same input always gives the same comment. The brief is a fourth independent call, and the change map is computed without a model at all.</p>
+    </div>
+    <figure class="plate">
+      <img src="/assets/projects/three-pass-review/threepass.svg?v=fff32686" width="1400" height="720" loading="lazy" decoding="async" alt="threepass: a pull request goes to a context builder that makes one frozen input. A cost ceiling estimates every call first, and shrinks context, skips a check or refuses rather than overspend. Three isolated checks, correctness, security and data safety, and architecture, review it in parallel. A deterministic reconciler validates, merges duplicates, scores agreement, thresholds, ranks and caps the findings into one comment with its cost.">
+      <figcaption>Inside pass 3: one frozen input, a cost ceiling before any call, three isolated checks, one reconciled comment.</figcaption>
+    </figure>
+    <div class="prose">
+      <h3>A cost ceiling that holds</h3>
+      <p>Every call is priced before it&rsquo;s made, using the API&rsquo;s own token counter and assuming the maximum output. Over budget, the review shrinks its context, then drops a check, then the brief, and finally refuses rather than overspend. The real cost, from the API&rsquo;s usage report, is printed in the comment.</p>
+
+      <h3>Measured, not claimed</h3>
+      <p>Independent checks are a claim, so the repository ships an eval harness that tests it against chained checks, a single combined prompt, and that prompt sampled three times as the cost-matched control. It reports recall and precision per check with 95% Wilson intervals, counts a defect as caught only when most runs catch it, hides precision until people have labelled the findings, and can&rsquo;t publish numbers from fake or stale runs. The first real run hasn&rsquo;t happened yet, so there are no numbers to quote, and the results table can only be filled in by the harness.</p>
+    </div>
+  </div>
+</section>
+
+<section id="guardrails">
+  <div class="wrap reveal">
+    <div class="eyebrow">Guardrails</div>
+    <h2>Guarantees, and what holds them</h2>
+    <div class="prose">
+      <p>A review process for AI-written code is only as good as what stops it from being gamed, by a pull request or by the AI itself. Each guarantee here is enforced by code or by GitHub, not by a sentence in a prompt.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Guarantee</th><th>How it&rsquo;s enforced</th></tr></thead>
+        <tbody>
+          <tr><td>A PR can&rsquo;t weaken its own review</td><td class="dim">The routing policy, the choice of light reviewer, the reviewer instructions and the AI budget are all read from the base branch. Any change to the review setup is routed deep.</td></tr>
+          <tr><td>AI never approves</td><td class="dim">Reviewers return verdicts as data and plain scripts act on them. Escalation only goes up, and only a maintainer can remove it &mdash; never the PR author.</td></tr>
+          <tr><td>A failed review is never a clean one</td><td class="dim">No result means a &ldquo;didn&rsquo;t finish&rdquo; comment, a failed run, and a merge gate that stays pending.</td></tr>
+          <tr><td>Untrusted input stays data</td><td class="dim">The deep-review job checks the PR out as data and never runs it. <code>threepass</code> gives the model no tools, wraps input in markers it can&rsquo;t forge, never follows symlinks or reads <code>.git</code>, and escapes everything it posts.</td></tr>
+          <tr><td>Spend is bounded</td><td class="dim">A hard ceiling per review, estimated before any call. Retries are off for billed calls, so one call can&rsquo;t be billed twice.</td></tr>
+          <tr><td>Checks stay independent</td><td class="dim">A test fails if any check&rsquo;s request contains another check&rsquo;s output or prompt.</td></tr>
+          <tr><td>Tested without the network</td><td class="dim">The Ruby suite refuses every socket and runs on recorded responses. The routing rules have their own Node tests, and every workflow template passes actionlint.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="rollout">
+  <div class="wrap reveal">
+    <div class="eyebrow">Rollout</div>
+    <h2>One setup, every project</h2>
+    <div class="prose">
+      <p>The installer copies the kit into a repository, vendors the review skill at a pinned commit, sets the pass 2 reviewer, and pins pass 3 to an exact commit of <code>threepass</code>, so every project reviews with a known version. When the kit improves, <code>--upgrade</code> refreshes the kit&rsquo;s own files and moves the pin, and never touches what the team edits: the routing policy, CODEOWNERS, the PR template, the Copilot instructions. The upgrade touches the review setup, so its own pull request gets a deep review.</p>
+      <p>The guide recommends a shadow mode first. Tiers, AI reviews and briefs all appear while people keep reviewing the way they do today, and the merge gate goes live only once the light review&rsquo;s precision and the tier routing hold up against what reviewers actually found.</p>
+    </div>
+  </div>
+</section>
+
+<section id="built-on">
+  <div class="wrap reveal">
+    <div class="eyebrow">Credits</div>
+    <h2>Built on tools that already exist</h2>
+    <div class="prose">
+      <p>Pass 1 is <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review" target="_blank" rel="noopener">GitHub Copilot code review</a>. Pass 2 runs on <a href="https://github.com/anthropics/claude-code-action" target="_blank" rel="noopener">claude-code-action</a> with either Addy Osmani&rsquo;s MIT-licensed <a href="https://github.com/addyosmani/agent-skills/tree/main/skills/code-review-and-quality" target="_blank" rel="noopener">code-review-and-quality</a> skill or Claude Code&rsquo;s <a href="https://github.com/anthropics/claude-code/tree/main/plugins/pr-review-toolkit" target="_blank" rel="noopener">pr-review-toolkit</a>, used as they are.</p>
+      <p>Three-Pass Review adds the process around them: the tier check and merge gate, the routing policy, the pass 3 brief and the <code>threepass</code> engine behind it, the installer, and the guide that ties it together.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap reveal">
+    <div class="eyebrow">Scope</div>
+    <h2>What it deliberately doesn&rsquo;t do</h2>
+    <div class="prose">
+      <p>It never approves or merges; people do. <code>threepass</code> posts one summary comment, not inline comments on each line. Pull requests from forks get no AI deep review, because fork runs get no secrets; they go deep, and people review them with the checklist. It&rsquo;s GitHub-only, and it isn&rsquo;t a hosted service: everything runs in your own Actions, with your own API key.</p>
+      <p>And it&rsquo;s early. Every part is built and tested end to end against recorded responses, but it hasn&rsquo;t yet been run on a live repository or evaluated against the real API.</p>
+    </div>
+  </div>
+</section>
+
+<section id="try">
+  <div class="wrap reveal">
+    <div class="eyebrow">Try it</div>
+    <h2>Install the process</h2>
+    <div class="prose">
+      <p>You need admin access to a GitHub repository, the GitHub CLI, and an Anthropic API key. Setup takes about 30 minutes per repository.</p>
+    </div>
+<pre><span class="c"># get the kit</span>
+git clone https://github.com/lmagsino/three-pass-review.git
+
+<span class="c"># install it in a project, picking the pass 2 reviewer</span>
+cd your-repo &amp;&amp; git switch -c three-pass-review
+bash ../three-pass-review/guide/scripts/install.sh . --light-reviewer addy   <span class="c"># or pr-review-toolkit</span>
+
+<span class="c"># labels, the API key, then the branch rules (see the setup guide)</span>
+bash ../three-pass-review/guide/scripts/create-labels.sh your-org/your-repo
+gh secret set ANTHROPIC_API_KEY -R your-org/your-repo
+
+<span class="c"># later, when the kit improves</span>
+bash ../three-pass-review/guide/scripts/install.sh . --upgrade</pre>
+    <div class="link-row">
+      <a class="primary" href="https://github.com/lmagsino/three-pass-review" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a href="https://github.com/lmagsino/three-pass-review/blob/main/guide/docs/setup.md" target="_blank" rel="noopener">Setup guide ↗</a>
+    </div>
+  </div>
+</section>
+
+</article>
+
+<footer>
+  <div class="wrap reveal">
+    <div class="close-line">AI reads every line. People own the risk.</div>
+    <div class="contact-grid">
+      <a href="/">&larr; Back to portfolio</a>
+      <a href="mailto:leo.magsino819@gmail.com">leo.magsino819@gmail.com</a>
+      <a href="https://www.linkedin.com/in/leomagsinojr/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/lmagsino" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
