@@ -388,6 +388,105 @@
   </div>
 </section>
 
+<section id="line">
+  <div class="wrap reveal">
+    <div class="eyebrow">The whole line</div>
+    <h2>PRD in, merged code out</h2>
+    <div class="prose">
+      <p>Here is the end-to-end shape. Solid boxes are me. Dashed boxes are agents. Every &#9670; is a gate where I approve before anything moves on &mdash; and the last step, the merge, is one no agent can perform, enforced by hooks and shims rather than by a sentence in a prompt.</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <svg viewBox="0 0 860 330" role="img" aria-label="End-to-end flow: my PRD goes through decide, plan and tickets with approval gates, into an unattended dev loop of developer, cross-vendor reviewer and guardian producing draft PRs; every PR then passes Copilot, a light AI review and, when risky, a deep review brief with two humans, before I merge.">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <text x="10" y="20" class="dtb">Build &mdash; AI Light Factory</text>
+
+          <rect x="10" y="36" width="88" height="46" rx="4" class="dp"/>
+          <text x="54" y="56" text-anchor="middle" class="dtb">Me</text>
+          <text x="54" y="72" text-anchor="middle" class="dts">write the PRD</text>
+
+          <line x1="98" y1="59" x2="126" y2="59" class="dln" marker-end="url(#ar)"/>
+
+          <rect x="128" y="36" width="116" height="46" rx="4" class="dag"/>
+          <text x="186" y="56" text-anchor="middle" class="dt">Architect</text>
+          <text x="186" y="72" text-anchor="middle" class="dtm">grill-with-docs</text>
+
+          <line x1="244" y1="59" x2="276" y2="59" class="dln" marker-end="url(#ar)"/>
+          <path d="M260 52 l7 7 l-7 7 l-7 -7 z" class="dac"/>
+
+          <rect x="278" y="36" width="116" height="46" rx="4" class="dag"/>
+          <text x="336" y="56" text-anchor="middle" class="dt">Planner</text>
+          <text x="336" y="72" text-anchor="middle" class="dtm">plan → to-tickets</text>
+
+          <line x1="394" y1="59" x2="426" y2="59" class="dln" marker-end="url(#ar)"/>
+          <path d="M410 52 l7 7 l-7 7 l-7 -7 z" class="dac"/>
+
+          <rect x="428" y="24" width="240" height="88" rx="4" class="dag"/>
+          <text x="548" y="44" text-anchor="middle" class="dt">Dev loop &middot; unattended</text>
+          <text x="548" y="62" text-anchor="middle" class="dts">Claude Code builds test-first</text>
+          <text x="548" y="78" text-anchor="middle" class="dts">Codex reviews &middot; other vendor &middot; 2 rounds</text>
+          <text x="548" y="94" text-anchor="middle" class="dts">Guardian sweeps PR threads</text>
+
+          <line x1="668" y1="68" x2="696" y2="68" class="dln" marker-end="url(#ar)"/>
+
+          <rect x="698" y="45" width="100" height="46" rx="4" class="dp"/>
+          <text x="748" y="65" text-anchor="middle" class="dtb">Draft PR</text>
+          <text x="748" y="81" text-anchor="middle" class="dts">squashed, green</text>
+
+          <path d="M748 91 L748 136" class="dln" marker-end="url(#ar)"/>
+          <text x="758" y="118" class="dts">every PR</text>
+
+          <text x="10" y="150" class="dtb">Review &mdash; Three-Pass Review</text>
+
+          <rect x="616" y="138" width="180" height="46" rx="4" class="dag"/>
+          <text x="706" y="158" text-anchor="middle" class="dt">Pass 1 &middot; Copilot</text>
+          <text x="706" y="174" text-anchor="middle" class="dts">line comments, every push</text>
+
+          <line x1="616" y1="161" x2="584" y2="161" class="dln" marker-end="url(#ar)"/>
+
+          <rect x="396" y="138" width="186" height="46" rx="4" class="dag"/>
+          <text x="489" y="158" text-anchor="middle" class="dt">Pass 2 &middot; Light review</text>
+          <text x="489" y="174" text-anchor="middle" class="dts">whole change, every PR</text>
+
+          <line x1="396" y1="161" x2="364" y2="161" class="dln" marker-end="url(#ar)"/>
+
+          <rect x="258" y="138" width="104" height="46" rx="4" class="dp"/>
+          <text x="310" y="158" text-anchor="middle" class="dt">Tier check</text>
+          <text x="310" y="174" text-anchor="middle" class="dts">effort follows risk</text>
+
+          <path d="M310 184 L310 218 L196 218 L196 238" class="dln" marker-end="url(#ar)"/>
+          <text x="206" y="212" class="dts">risky → deep</text>
+          <path d="M258 161 L120 161 L120 268 L104 268" class="dln" marker-end="url(#ar)"/>
+          <text x="128" y="200" class="dts">routine →</text>
+          <text x="128" y="215" class="dts">1 approval</text>
+
+          <rect x="136" y="240" width="226" height="56" rx="4" class="dag"/>
+          <text x="249" y="260" text-anchor="middle" class="dt">Pass 3 &middot; Deep review</text>
+          <text x="249" y="276" text-anchor="middle" class="dts">AI reviewer brief, then</text>
+          <text x="249" y="290" text-anchor="middle" class="dts">code owner + second reviewer</text>
+
+          <line x1="136" y1="268" x2="104" y2="268" class="dln" marker-end="url(#ar)"/>
+
+          <rect x="10" y="240" width="92" height="56" rx="4" class="dp"/>
+          <text x="56" y="262" text-anchor="middle" class="dtb">Me</text>
+          <text x="56" y="278" text-anchor="middle" class="dts">read the diff,</text>
+          <text x="56" y="291" text-anchor="middle" class="dts">merge</text>
+          <rect x="6" y="236" width="100" height="64" rx="6" class="dacs"/>
+
+          <text x="850" y="320" text-anchor="end" class="dts">dashed = agents &middot; solid = me &middot; &#9670; = a gate I approve &middot; the AI never approves, marks ready, or merges</text>
+        </svg>
+      </div>
+      <figcaption>The whole line: AI Light Factory takes a PRD to reviewed draft PRs; Three-Pass Review reads every one of them; the merge is mine. Agents never cross into the outlined box.</figcaption>
+    </figure>
+  </div>
+</section>
+
 </article>
 
 <footer>
