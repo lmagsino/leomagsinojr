@@ -670,6 +670,23 @@ SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread       
 
       <h3>Guardrails are code, not prompts</h3>
       <p>The line never marks a PR ready, never approves, never merges. That isn&rsquo;t a sentence in a prompt a model might skip &mdash; it&rsquo;s a guard hook and a pair of <code>git</code>/<code>gh</code> shims that refuse those commands for every worker, whatever agent sits in the seat.</p>
+
+      <h3>The seats, by name</h3>
+      <p>For the curious, this is the actual stack I run the line with:</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Tool</th><th>Where it sits in my workflow</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Code</td><td class="dim">The Developer, Guardian and Verifier seats &mdash; it writes the code, sweeps the threads, drives the app in every flag state</td></tr>
+          <tr><td>OpenAI Codex</td><td class="dim">The Reviewer seat. Codex reviews every line Claude writes, with fresh context and none of the builder&rsquo;s blind spots</td></tr>
+          <tr><td>GitHub Copilot</td><td class="dim">Pass 1 of review &mdash; line comments on every push, before anyone spends attention</td></tr>
+          <tr><td>Orca</td><td class="dim">My agentic-workflow workspace &mdash; where the line&rsquo;s seats run, and where I watch them work</td></tr>
+          <tr><td>gstack</td><td class="dim">Stacked pull requests. An unmerged dependency is a base branch, not a blocker, so a milestone keeps moving while drafts wait for me</td></tr>
+          <tr><td>Skill packs</td><td class="dim">Matt Pocock&rsquo;s <code>grill-with-docs</code> and <code>to-tickets</code>, and Addy Osmani&rsquo;s <code>agent-skills</code> &mdash; published <code>SKILL.md</code> files, used as they are</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
