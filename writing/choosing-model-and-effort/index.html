@@ -490,6 +490,35 @@
   </div>
 </section>
 
+<section id="seats">
+  <div class="wrap reveal">
+    <div class="eyebrow">Seat by seat</div>
+    <h2>What each seat gets, and why</h2>
+    <div class="prose">
+      <p>Every seat on the line is pinned in config &mdash; model and effort both &mdash; so lowering my session default to save tokens can&rsquo;t silently downgrade a seat that judges. These are the assignments I actually run:</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Seat</th><th>Model</th><th>Effort</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Decide &amp; plan</td><td data-label="Model">Frontier, my own session</td><td data-label="Effort">Max</td><td data-label="Why" class="dim">Nothing re-examines these until the Verifier. A guess here gets built, reviewed and merged exactly as written</td></tr>
+          <tr><td>Orchestrator</td><td data-label="Model">Mid-tier is fine</td><td data-label="Effort">Medium</td><td data-label="Why" class="dim">The only medium seat. It follows procedure &mdash; owns the queue, dispatches, reads one-line results. It never judges</td></tr>
+          <tr><td>Developer</td><td data-label="Model">Claude Code, frontier</td><td data-label="Effort">High</td><td data-label="Why" class="dim">Writes the code test-first. Its output is reviewed, but a sloppy build burns the Reviewer&rsquo;s rounds</td></tr>
+          <tr><td>Reviewer</td><td data-label="Model">Codex &mdash; a different vendor</td><td data-label="Effort">High</td><td data-label="Why" class="dim">Fresh context is its product, so it&rsquo;s never batched. A reviewer sharing the builder&rsquo;s blind spots fails silently</td></tr>
+          <tr><td>Guardian</td><td data-label="Model">Claude Code, frontier</td><td data-label="Effort">High</td><td data-label="Why" class="dim">Judges review threads with the severity ladder &mdash; but batched in fives, because most of a short session is startup cost</td></tr>
+          <tr><td>Verifier</td><td data-label="Model">Claude Code, frontier</td><td data-label="Effort">High</td><td data-label="Why" class="dim">The only stage whose job is to prove the plan wrong. The worst place to economise</td></tr>
+          <tr><td>Board, change map, shims</td><td data-label="Model">No model</td><td data-label="Effort">&mdash;</td><td data-label="Why" class="dim">Anything that can be deterministic, is. The review&rsquo;s change map is computed from the diff with no model, so it&rsquo;s exact</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p style="margin-top:var(--s8)">Notice the pattern: the two seats at the extremes are mine and the scripts&rsquo;. <strong>Full judgement gets the frontier at max effort; pure procedure gets no model at all.</strong> Every agent seat lives between those poles, placed by how much judging it does &mdash; not by how much code it touches.</p>
+    </div>
+  </div>
+</section>
+
 </article>
 
 <footer>
