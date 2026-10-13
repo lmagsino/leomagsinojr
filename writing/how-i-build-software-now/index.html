@@ -199,6 +199,34 @@
   .prose ul li + li{margin-top:var(--s3);}
   .prose ul li::marker{color:var(--accent);}
   .prose strong{font-weight:600;}
+  .prose blockquote{
+    margin:var(--s8) 0;
+    padding-left:var(--s6);
+    border-left:2px solid var(--accent);
+    font-size:24px;
+    font-style:italic;
+    font-variation-settings:'opsz' 40;
+    font-weight:500;
+    line-height:1.35;
+    letter-spacing:-0.006em;
+  }
+
+  /* Numbered like the project write-ups: the numerals carry the stat row's accent. */
+  ol.numbered{list-style:none; counter-reset:n; margin-top:var(--s4);}
+  ol.numbered li{
+    counter-increment:n;
+    position:relative;
+    padding:var(--s3) 0 var(--s3) var(--s8);
+    border-top:1px solid var(--line);
+  }
+  ol.numbered li:last-child{border-bottom:1px solid var(--line);}
+  ol.numbered li::before{
+    content:counter(n);
+    position:absolute; left:0; top:var(--s3);
+    font-variation-settings:'opsz' 40;
+    font-weight:600;
+    color:var(--accent);
+  }
   .prose em{font-style:italic;}
   .prose a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px;}
   .prose a:hover{color:var(--ink);}
@@ -853,6 +881,33 @@ SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread       
         <li><strong>Hooks made guardrails enforceable.</strong> Agent runtimes now expose pre-tool-use hooks and sandboxed execution, so &ldquo;never merge&rdquo; can be a refusal at the command layer instead of a plea in a prompt. That one capability is the difference between a light factory and a hopeful one.</li>
       </ul>
       <p>The number that keeps me honest, though, is also from that report: engineers lean on AI for most of their work, yet say they can <em>fully</em> delegate only a small slice of it. That gap &mdash; between &ldquo;AI did most of it&rdquo; and &ldquo;nobody checked it&rdquo; &mdash; is where my whole workflow lives.</p>
+    </div>
+  </div>
+</section>
+
+<section id="mine">
+  <div class="wrap reveal">
+    <div class="eyebrow">What stays mine</div>
+    <h2>The parts I refuse to delegate</h2>
+    <div class="prose">
+      <p>After a year of running this on real codebases, the rules I keep are less about capability and more about accountability:</p>
+      <ol class="numbered">
+        <li><strong>Never guess for the human.</strong> The line may stop and wait for me, but it never fills a gap in my decisions with its own guess &mdash; a guess that reads as a decision gets built, reviewed and merged exactly as written.</li>
+        <li><strong>Questions belong on the ticket.</strong> A question about what the work should be is a planning defect, not a runtime event.</li>
+        <li><strong>Two review rounds, then a human.</strong> If two rounds haven&rsquo;t converged, a third won&rsquo;t either.</li>
+        <li><strong>Check the effect, not the message.</strong> After any step that changes the world, I look at the result itself &mdash; <code>gh pr view</code>, not &ldquo;PR created!&rdquo;.</li>
+        <li><strong>Merging is the measurement.</strong> A draft only counts as a success once a human has merged it. The AI never approves, and I own every line that ships, whoever typed it.</li>
+      </ol>
+
+      <blockquote>Being a software engineer in the AI era isn&rsquo;t typing faster. It&rsquo;s deciding better, reading sharper, and owning the risk &mdash; with a line of agents doing the drafting in between.</blockquote>
+
+      <p>Both systems are open source, and both install into an ordinary GitHub repo: <a href="https://github.com/lmagsino/ai-light-factory" target="_blank" rel="noopener">ai-light-factory</a> and <a href="https://github.com/lmagsino/three-pass-review" target="_blank" rel="noopener">three-pass-review</a>. If you&rsquo;re running agents on a codebase people depend on, I&rsquo;d love to hear where your line stops and you begin.</p>
+    </div>
+
+    <div class="link-row">
+      <a href="https://github.com/lmagsino/ai-light-factory" target="_blank" rel="noopener">ai-light-factory ↗</a>
+      <a href="https://github.com/lmagsino/three-pass-review" target="_blank" rel="noopener">three-pass-review ↗</a>
+      <a href="mailto:leo.magsino819@gmail.com">Tell me where your line stops</a>
     </div>
   </div>
 </section>
