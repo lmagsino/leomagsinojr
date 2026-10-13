@@ -579,6 +579,68 @@
   </div>
 </section>
 
+<section id="ceiling">
+  <div class="wrap reveal">
+    <div class="eyebrow">The ceiling</div>
+    <h2>Degrade loudly, never overspend silently</h2>
+    <div class="prose">
+      <p>Generous effort still needs a hard ceiling, or one bad week eats the month. The deep-review engine prices every call before making it &mdash; the API&rsquo;s own token counter, assuming maximum output &mdash; and when the estimate crosses the budget, it degrades in a fixed order rather than quietly billing more:</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <svg viewBox="0 0 640 210" role="img" aria-label="A degradation ladder: every call is priced first; over budget, the review shrinks its context, then drops one of the three checks, then drops the brief, and finally refuses to run rather than overspend; the real cost is printed in the comment.">
+          <defs>
+            <marker id="arz" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <rect x="10" y="20" width="150" height="48" rx="4" class="dp"/>
+          <text x="85" y="40" text-anchor="middle" class="dt">price every call</text>
+          <text x="85" y="56" text-anchor="middle" class="dts">before it&rsquo;s made</text>
+
+          <line x1="160" y1="44" x2="196" y2="44" class="dln" marker-end="url(#arz)"/>
+          <text x="178" y="14" text-anchor="middle" class="dts">over?</text>
+
+          <rect x="198" y="20" width="130" height="48" rx="4" class="db"/>
+          <text x="263" y="40" text-anchor="middle" class="dt">shrink context</text>
+          <text x="263" y="56" text-anchor="middle" class="dts">step 1</text>
+
+          <line x1="328" y1="44" x2="364" y2="44" class="dln" marker-end="url(#arz)"/>
+          <text x="346" y="14" text-anchor="middle" class="dts">still?</text>
+
+          <rect x="366" y="20" width="130" height="48" rx="4" class="db"/>
+          <text x="431" y="40" text-anchor="middle" class="dt">drop a check</text>
+          <text x="431" y="56" text-anchor="middle" class="dts">step 2</text>
+
+          <line x1="496" y1="44" x2="532" y2="44" class="dln" marker-end="url(#arz)"/>
+          <text x="514" y="14" text-anchor="middle" class="dts">still?</text>
+
+          <rect x="534" y="20" width="96" height="48" rx="4" class="db"/>
+          <text x="582" y="40" text-anchor="middle" class="dt">drop the brief</text>
+          <text x="582" y="56" text-anchor="middle" class="dts">step 3</text>
+
+          <path d="M582 68 L582 110 L161 110 L161 130" class="dln" marker-end="url(#arz)"/>
+          <text x="372" y="102" text-anchor="middle" class="dts">still over budget?</text>
+
+          <rect x="86" y="134" width="150" height="48" rx="4" class="db"/>
+          <rect x="82" y="130" width="158" height="56" rx="6" class="dacs"/>
+          <text x="161" y="154" text-anchor="middle" class="dtb">refuse</text>
+          <text x="161" y="170" text-anchor="middle" class="dts">never overspend</text>
+
+          <text x="270" y="154" class="dts">the real cost, from the API&rsquo;s usage report,</text>
+          <text x="270" y="170" class="dts">is printed in the review comment</text>
+        </svg>
+      </div>
+      <figcaption>The cost ceiling as a ladder. Retries are off for billed calls, so one call can never be billed twice &mdash; and a refusal is a visible event, not a quietly thinner review.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p>The rest of the weekly allowance is kept by habits rather than heroics: two lanes as a hard ceiling; workers that report one status line and a file path instead of their full output; waiting in a background shell rather than in turns; test output written to files; the Guardian batched in fives. And one deliberate exception &mdash; the Developer and the Reviewer are <em>never</em> batched, because fresh context is the Reviewer&rsquo;s product. Some spend you protect.</p>
+    </div>
+  </div>
+</section>
+
 </article>
 
 <footer>
