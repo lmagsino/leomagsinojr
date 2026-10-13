@@ -292,6 +292,35 @@
   }
 
   a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  /* Printing or "Save as PDF" drops the site chrome and keeps the rail. The
+     section eyebrows stand in for the headings, which are written for the web. */
+  @page{size:A4; margin:14mm 15mm;}
+  @media print{
+    body{background:#fff; font-size:9pt; line-height:1.38;}
+    .topbar, .link-row, .stat-row, footer, main h2, .hero .eyebrow{display:none;}
+    .reveal{opacity:1; transform:none; transition:none;}
+    .wrap{max-width:none; padding:0;}
+    header.hero{padding:0 0 8pt; border-bottom:1px solid var(--line-strong);}
+    h1{font-size:22pt;}
+    .hero-sub{margin-top:4pt; font-size:10.5pt; max-width:none;}
+    .contact{margin-top:4pt; font-size:8pt;}
+    main section{padding:8pt 0 0; border:none;}
+    main .eyebrow{margin-bottom:4pt;}
+    .lead{font-size:9pt; max-width:none;}
+    .rail{grid-template-columns:84pt minmax(0, 1fr); column-gap:10pt; padding:4pt 0; break-inside:avoid;}
+    .rail-label{padding-top:2pt; font-size:7pt; letter-spacing:0.06em; white-space:nowrap;}
+    .when{font-size:7pt;}
+    .badge{font-size:6.5pt; letter-spacing:0.04em;}
+    .rail-body{max-width:none;}
+    .job h3, h3.edu{font-size:10pt;}
+    .job ul{margin-top:2pt; padding-left:12pt;}
+    .job li + li{margin-top:0;}
+    .chips{gap:3pt;}
+    .chips span{font-size:7.5pt; padding:0 4pt; background:none;}
+    a{text-decoration:none;}
+    *{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
 </style>
 </head>
 <body>
