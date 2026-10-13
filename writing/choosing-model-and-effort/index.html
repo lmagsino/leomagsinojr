@@ -519,6 +519,66 @@
   </div>
 </section>
 
+<section id="economics">
+  <div class="wrap reveal">
+    <div class="eyebrow">The economics</div>
+    <h2>Pay at creation, not at inspection</h2>
+    <div class="prose">
+      <p>Why so generous with effort? Because the alternative is more expensive. A defect that survives to a human costs a review, a fix, a re-review and a round trip &mdash; three or four agent sessions, plus the scarcest resource on the line: my attention. Preventing it costs one extra effort step on one session.</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <svg viewBox="0 0 700 230" role="img" aria-label="Two paths for the same defect: caught at creation it costs one build session with one extra effort step, then merges; leaked to a human it costs a human review, a fix session, a re-review session and a round trip, three to four sessions in total.">
+          <defs>
+            <marker id="ary" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <text x="10" y="22" class="dtb">Caught at creation</text>
+          <rect x="10" y="34" width="190" height="46" rx="4" class="dag"/>
+          <text x="105" y="54" text-anchor="middle" class="dt">build session</text>
+          <text x="105" y="70" text-anchor="middle" class="dta">+ one extra effort step</text>
+          <line x1="200" y1="57" x2="240" y2="57" class="dln" marker-end="url(#ary)"/>
+          <rect x="242" y="34" width="110" height="46" rx="4" class="dp"/>
+          <text x="297" y="62" text-anchor="middle" class="dt">draft PR</text>
+          <line x1="352" y1="57" x2="392" y2="57" class="dln" marker-end="url(#ary)"/>
+          <rect x="394" y="34" width="90" height="46" rx="4" class="dp"/>
+          <text x="439" y="62" text-anchor="middle" class="dtb">merge</text>
+          <text x="520" y="62" class="dta">&asymp; 1 session</text>
+
+          <line x1="10" y1="104" x2="690" y2="104" class="dlns"/>
+
+          <text x="10" y="130" class="dtb">Leaks to a human</text>
+          <rect x="10" y="142" width="130" height="46" rx="4" class="dag"/>
+          <text x="75" y="170" text-anchor="middle" class="dt">build session</text>
+          <line x1="140" y1="165" x2="172" y2="165" class="dln" marker-end="url(#ary)"/>
+          <rect x="174" y="142" width="120" height="46" rx="4" class="dp"/>
+          <text x="234" y="162" text-anchor="middle" class="dt">my review</text>
+          <text x="234" y="178" text-anchor="middle" class="dwarns">finds the defect</text>
+          <line x1="294" y1="165" x2="326" y2="165" class="dln" marker-end="url(#ary)"/>
+          <rect x="328" y="142" width="100" height="46" rx="4" class="dag"/>
+          <text x="378" y="170" text-anchor="middle" class="dt">fix session</text>
+          <line x1="428" y1="165" x2="460" y2="165" class="dln" marker-end="url(#ary)"/>
+          <rect x="462" y="142" width="110" height="46" rx="4" class="dag"/>
+          <text x="517" y="170" text-anchor="middle" class="dt">re-review</text>
+          <line x1="572" y1="165" x2="604" y2="165" class="dln" marker-end="url(#ary)"/>
+          <rect x="606" y="142" width="84" height="46" rx="4" class="dp"/>
+          <text x="648" y="162" text-anchor="middle" class="dt">round</text>
+          <text x="648" y="177" text-anchor="middle" class="dt">trip</text>
+          <text x="10" y="216" class="dwarn">&asymp; 3&ndash;4 sessions, plus my attention &mdash; the scarcest thing on the line</text>
+        </svg>
+      </div>
+      <figcaption>The same defect, two bills. One extra effort step at creation is the cheapest insurance an agent line can buy.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p>This is also why the review side of my setup, <a href="/projects/three-pass-review">Three-Pass Review</a>, scales effort by risk instead of spending uniformly: a copy fix gets Copilot and a light pass; a payments migration gets three independent checks and a reviewer brief before two humans even open the diff.</p>
+    </div>
+  </div>
+</section>
+
 </article>
 
 <footer>
