@@ -245,6 +245,23 @@
   .dbarB{fill:currentColor; opacity:.22;}
   .dbarC{fill:currentColor; opacity:.1;}
 
+  /* ---------- CODE ---------- */
+  pre{
+    margin:var(--s6) 0;
+    padding:var(--s4);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    overflow-x:auto;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    line-height:1.7;
+    color:var(--ink);
+  }
+  pre.board{font-size:11px; line-height:1.6;}
+  pre.board .hi{color:var(--accent); font-weight:500;}
+  pre.board .ok{color:var(--ink); font-weight:500;}
+  pre.board .dim{color:var(--ink-dim);}
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -545,6 +562,26 @@
       </div>
       <figcaption>One day on the line. The dev loop never asks me a question mid-run &mdash; any question it would want to ask is an upstream defect, recorded on the ticket while the run carries on.</figcaption>
     </figure>
+
+    <div class="prose">
+      <p>The &ldquo;glance at the board&rdquo; part matters. While the loop runs, this is the only screen I read, ordered by what needs me:</p>
+    </div>
+
+<pre class="board">2026-10-09-m2-billing-exports  Thu 09 Oct 16:12
+-----------------------------------------------------------------------------------------------
+FLAG   TICKET                      PR / SHA     SEAT         STATE               NEXT
+-----------------------------------------------------------------------------------------------
+<span class="hi">PARK   T2.3 #71 Rounding rules     #74 c20d1e1  -            Critical survives   needs you</span>
+LANE   T2.5 #73 CSV writer         -            Reviewer     review round 1      judge findings
+LANE   T2.6 #75 Column registry    -            Developer-2  building            review
+SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread        verify push
+<span class="ok">DONE   T2.1 #69 Export schema      #68 41b7fa0  -            draft, swept        you read it</span>
+-----------------------------------------------------------------------------------------------
+<span class="dim">2 advancing &middot; 1 sweeping &middot; 1 needs you &middot; 1 done     lanes 2/2 &middot; $9.80</span></pre>
+
+    <div class="prose">
+      <p>One lane parked because a Critical finding survived two review rounds &mdash; that&rsquo;s the rule: <strong>two review rounds, then a human.</strong> Everything else kept moving without me.</p>
+    </div>
   </div>
 </section>
 
