@@ -245,6 +245,28 @@
   .dbarB{fill:currentColor; opacity:.22;}
   .dbarC{fill:currentColor; opacity:.1;}
 
+  /* ---------- TABLES ---------- */
+  .table-wrap{margin-top:var(--s6); overflow-x:auto;}
+  table.spec{width:100%; border-collapse:collapse; min-width:600px;}
+  table.spec th{
+    text-align:left;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    padding:0 var(--s4) var(--s2) 0;
+    border-bottom:1px solid var(--line-strong);
+  }
+  table.spec td{
+    padding:var(--s3) var(--s4) var(--s3) 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.spec td:first-child{font-weight:600; white-space:nowrap;}
+  table.spec .dim{color:var(--ink-dim);}
+
   /* ---------- CODE ---------- */
   pre{
     margin:var(--s6) 0;
@@ -300,6 +322,21 @@
   @media (max-width:640px){
     header.hero{padding:var(--s12) 0 var(--s8);}
     figure.plate{padding:var(--s3);}
+    /* Rows stack on phones, so the right-hand columns are not scrolled out of view. */
+    table.spec{min-width:0;}
+    table.spec thead{display:none;}
+    table.spec tr{display:block; padding:var(--s3) 0; border-bottom:1px solid var(--line);}
+    table.spec td{display:block; border:none; padding:var(--s1) 0;}
+    table.spec td:first-child{white-space:normal;}
+    table.spec td[data-label]::before{
+      content:attr(data-label);
+      display:block;
+      font-family:'JetBrains Mono', ui-monospace, monospace;
+      font-size:var(--t-micro);
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--ink-dim);
+    }
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
     .stat + .stat{padding-left:0;}
@@ -581,6 +618,58 @@ SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread       
 
     <div class="prose">
       <p>One lane parked because a Critical finding survived two review rounds &mdash; that&rsquo;s the rule: <strong>two review rounds, then a human.</strong> Everything else kept moving without me.</p>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap reveal">
+    <div class="eyebrow">The build side</div>
+    <h2>AI Light Factory: the agents draft, I merge</h2>
+    <div class="prose">
+      <p>The name comes from Addy Osmani&rsquo;s distinction in <a href="https://addyosmani.com/blog/software-factories/" target="_blank" rel="noopener">Software Factories, Light and Dark</a>. A <em>dark</em> factory ships code no human has read. A <em>light</em> factory keeps a human in the loop, and gives a loop only as much autonomy as you can cheaply and reliably verify. I take the light side literally: my judgement moves to where it pays off, and everything in between runs unattended.</p>
+      <p>The factory is five stages, and I built it after a year of running agent lines on production codebases and watching exactly where they go wrong:</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Stage</th><th>Who</th><th>What I decide</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1 &middot; Decide</td>
+            <td data-label="Who">Architect agent, running Matt Pocock&rsquo;s <code>grill-with-docs</code>, grills me one question at a time and writes the ADRs</td>
+            <td data-label="What I decide"><em>Do the decisions hold?</em></td>
+          </tr>
+          <tr>
+            <td>2&ndash;3 &middot; Plan</td>
+            <td data-label="Who">Planner writes the plan with Addy Osmani&rsquo;s <code>agent-skills</code>, then publishes tickets with blocking edges via <code>to-tickets</code></td>
+            <td data-label="What I decide"><em>Right plan? Right tickets?</em></td>
+          </tr>
+          <tr>
+            <td>4 &middot; Dev loop</td>
+            <td data-label="Who">Developer builds, a Reviewer <strong>from another vendor</strong> reviews, Guardian sweeps threads</td>
+            <td data-label="What I decide" class="dim">Nothing. It runs unattended</td>
+          </tr>
+          <tr>
+            <td>5 &middot; Verify</td>
+            <td data-label="Who">Verifier drives the running app in every feature-flag state</td>
+            <td data-label="What I decide"><em>Merge.</em> Always mine</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <p style="margin-top:var(--s8)">Three defaults in there came straight from pain:</p>
+
+      <h3>A reviewer from the same vendor shares the builder&rsquo;s blind spots</h3>
+      <p>When the model that wrote the code also reviews it, its misses are silent &mdash; both passes share the same gaps. So in my setup Claude Code fills the Developer, Guardian and Verifier seats, and OpenAI&rsquo;s Codex fills the Reviewer seat: <strong>Claude writes the code, Codex reads it.</strong> Different vendor, fresh context, by design. If you put the same vendor in both seats, every PR says so.</p>
+
+      <h3>Unlimited parallelism is a trap</h3>
+      <p>Run wide open, a fleet of agents burns a week of model budget in days and opens more PRs than any human can review. Two lanes is the ceiling, and it isn&rsquo;t a starting point to tune upward.</p>
+
+      <h3>Guardrails are code, not prompts</h3>
+      <p>The line never marks a PR ready, never approves, never merges. That isn&rsquo;t a sentence in a prompt a model might skip &mdash; it&rsquo;s a guard hook and a pair of <code>git</code>/<code>gh</code> shims that refuse those commands for every worker, whatever agent sits in the seat.</p>
     </div>
   </div>
 </section>
