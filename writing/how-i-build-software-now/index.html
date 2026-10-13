@@ -245,6 +245,58 @@
   .dbarB{fill:currentColor; opacity:.22;}
   .dbarC{fill:currentColor; opacity:.1;}
 
+  /* ---------- APP WINDOW: the one dark plate, because it depicts an app ---------- */
+  .shot{
+    min-width:920px;
+    background:var(--ink);
+    color:#E9E2D2;
+    border-radius:6px;
+    overflow:hidden;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:11.5px;
+  }
+  .shot-bar{
+    display:flex; align-items:center; gap:var(--s2);
+    padding:var(--s2) var(--s3);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    color:#B3AA98;
+  }
+  .shot-bar .dots{display:flex; gap:6px;}
+  .shot-bar .dots i{width:10px; height:10px; border-radius:50%; background:#5A544A; display:block;}
+  .shot-bar .ttl{margin-left:6px;}
+  .shot-body{display:grid; grid-template-columns:280px 1fr;}
+  .shot-side{border-right:1px solid rgba(255,255,255,.08); padding:var(--s3) 0;}
+  .shot-side h4{
+    margin:0 var(--s3) var(--s2);
+    font-size:var(--t-micro);
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#8F8775;
+  }
+  .agent{display:flex; align-items:flex-start; gap:9px; padding:var(--s2) var(--s3); line-height:1.35;}
+  .agent.sel{background:rgba(255,255,255,.06);}
+  .agent .st{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent-soft);
+    margin-top:4px; flex:0 0 auto;
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  .agent:nth-child(odd) .st{animation-delay:.8s;}
+  .agent b{display:block; font-weight:500; color:#E9E2D2;}
+  .agent span{display:block; font-size:10.5px; color:#9A917E;}
+  .shot-main{padding:var(--s3) var(--s4); line-height:1.85; overflow:hidden;}
+  .shot-main .ln b{color:var(--accent-soft); font-weight:500;}
+  .shot-main .ln em{font-style:normal; color:#F1ECE1; font-weight:500;}
+  .shot-main .ts{color:#7A7262; margin-right:10px;}
+  .shot-main .cur{
+    display:inline-block; width:7px; height:13px;
+    background:var(--accent-soft);
+    vertical-align:-2px;
+    animation:pulse 1s steps(2) infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.35}}
+
   /* ---------- TABLES ---------- */
   .table-wrap{margin-top:var(--s6); overflow-x:auto;}
   table.spec{width:100%; border-collapse:collapse; min-width:600px;}
@@ -317,6 +369,7 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .reveal{opacity:1; transform:none; transition:none;}
+    .agent .st, .shot-main .cur{animation:none;}
   }
 
   @media (max-width:640px){
@@ -688,6 +741,37 @@ SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread       
         </tbody>
       </table>
     </div>
+
+    <div class="prose">
+      <p style="margin-top:var(--s8)">Orca is where I watch the line run. Every seat on the factory is a named agent in the sidebar, and on a good afternoon all of them are busy at once:</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <div class="shot" role="img" aria-label="Mockup of my Orca workspace during a dev-loop run: the sidebar lists the factory seats — Orchestrator, Developer, Developer-2, Reviewer on Codex, and Guardian — all with active status dots, while the main pane streams what each seat is doing.">
+          <div class="shot-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ttl">Orca &mdash; alf:dev-loop &middot; m2-billing-exports &middot; lanes 2/2</span></div>
+          <div class="shot-body">
+            <div class="shot-side">
+              <h4>Seats &middot; 5 running</h4>
+              <div class="agent sel"><i class="st"></i><div><b>Orchestrator</b><span>dispatching &middot; reads one-line results</span></div></div>
+              <div class="agent"><i class="st"></i><div><b>Developer</b><span>squashing T2.4 &middot; suite green</span></div></div>
+              <div class="agent"><i class="st"></i><div><b>Developer-2</b><span>building T2.6 &middot; column registry</span></div></div>
+              <div class="agent"><i class="st"></i><div><b>Reviewer &middot; Codex</b><span>round 1 on T2.5 &middot; fresh context</span></div></div>
+              <div class="agent"><i class="st"></i><div><b>Guardian</b><span>sweeping #76 &middot; 1 bot thread</span></div></div>
+            </div>
+            <div class="shot-main">
+              <div class="ln"><span class="ts">15:42:11</span><b>Orchestrator</b> &rarr; dispatched T2.5 to Reviewer &middot; lane 1</div>
+              <div class="ln"><span class="ts">15:42:30</span><b>Developer-2</b> red &rarr; green: registry lookup test passing</div>
+              <div class="ln"><span class="ts">15:43:05</span><b>Reviewer</b> round 1: one Important &mdash; caller of dismiss() left behind &#9888;</div>
+              <div class="ln"><span class="ts">15:43:41</span><b>Guardian</b> replied to Copilot thread on #76 &middot; pushed the fix</div>
+              <div class="ln"><span class="ts">15:44:02</span><b>Developer</b> <em>24/24 passing</em> &middot; draft PR #78 opened from green</div>
+              <div class="ln"><span class="ts">15:44:19</span><b>Orchestrator</b> board updated &rarr; 2 advancing &middot; 1 sweeping &middot; nothing needs you <span class="cur"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>The dev loop seen from Orca: Orchestrator, two Developer lanes, the Codex Reviewer and the Guardian, every seat busy. Illustrative, not a real screenshot &mdash; and note the last line: the best state a run can be in is &ldquo;nothing needs you&rdquo;.</figcaption>
+    </figure>
   </div>
 </section>
 
