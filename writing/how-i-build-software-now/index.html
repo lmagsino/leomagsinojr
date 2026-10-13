@@ -206,6 +206,45 @@
     white-space:nowrap;
   }
 
+  /* ---------- FIGURES: allowed the full page width, unlike prose ---------- */
+  figure.plate{
+    margin-top:var(--s8);
+    margin-bottom:var(--s8);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:var(--s6);
+  }
+  figure.plate .scroll{overflow-x:auto;}
+  /* Below this width the labels collide, so a phone scrolls the diagram instead. */
+  figure.plate svg{display:block; width:100%; height:auto; min-width:560px; color:var(--ink);}
+  figure.plate figcaption{
+    margin-top:var(--s3);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+    max-width:var(--measure);
+  }
+
+  /* Diagram parts, drawn inline so they take the page's type and colour. */
+  .db{fill:var(--paper-raised); stroke:currentColor; stroke-width:1.3;}
+  .dp{fill:var(--paper); stroke:currentColor; stroke-width:1.3;}
+  .dag{fill:var(--paper-raised); stroke:var(--ink-dim); stroke-width:1.3; stroke-dasharray:5 4;}
+  .dac{fill:var(--accent);}
+  .dacs{fill:none; stroke:var(--accent); stroke-width:1.6;}
+  .dln{fill:none; stroke:currentColor; stroke-width:1.3;}
+  .dlns{fill:none; stroke:var(--line-strong); stroke-width:1.1; stroke-dasharray:3 4;}
+  .dt{font-family:'Newsreader', Georgia, serif; font-size:13px; fill:currentColor;}
+  .dtb{font-family:'Newsreader', Georgia, serif; font-size:13.5px; font-weight:600; fill:currentColor;}
+  .dts{font-family:'Newsreader', Georgia, serif; font-size:12px; fill:var(--ink-dim);}
+  .dtm{font-family:'JetBrains Mono', ui-monospace, monospace; font-size:10.5px; fill:var(--accent);}
+  .dta{font-family:'Newsreader', Georgia, serif; font-size:13px; font-weight:600; fill:var(--accent);}
+  .don{font-family:'Newsreader', Georgia, serif; font-size:12px; font-weight:500; fill:var(--paper-raised);}
+  .dink{font-family:'Newsreader', Georgia, serif; font-size:12px; font-weight:500; fill:var(--ink);}
+  .dbarA{fill:var(--accent); opacity:.9;}
+  .dbarA2{fill:var(--accent-soft);}
+  .dbarB{fill:currentColor; opacity:.22;}
+  .dbarC{fill:currentColor; opacity:.1;}
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -243,6 +282,7 @@
 
   @media (max-width:640px){
     header.hero{padding:var(--s12) 0 var(--s8);}
+    figure.plate{padding:var(--s3);}
     .stat-row{flex-direction:column;}
     .stat{border-right:none; border-bottom:1px solid var(--line);}
     .stat + .stat{padding-left:0;}
@@ -293,6 +333,60 @@
 </header>
 
 <article>
+
+<section id="shift">
+  <div class="wrap reveal">
+    <div class="eyebrow">The shift</div>
+    <h2>The bottleneck moved, so I moved</h2>
+    <div class="prose">
+      <p>For most of my career, the unit of work was the keystroke. You thought, you typed, you tested, you shipped. AI pair tools chipped at that from 2022 onward, but the job stayed the same shape: an engineer with a very fast autocomplete.</p>
+      <p>Somewhere over the last year and a half, the shape changed. The agents got good enough to take a ticket from description to pull request on their own. <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report" target="_blank" rel="noopener">Anthropic&rsquo;s 2026 Agentic Coding Trends report</a> describes the same thing I was living: being a software engineer increasingly means orchestrating agents that write code &mdash; evaluating their output, giving direction &mdash; rather than typing the code yourself. The industry phrase is <em>agentic engineering</em>. My phrase is simpler: I stopped being the typist and became the line manager.</p>
+      <p>But here&rsquo;s the part that took me longest to accept: <strong>when agents write the code, writing code stops being the constraint.</strong> Deciding what to build, reviewing what was built, and verifying it actually works become the constraint. Any hour I spend has to go where the bottleneck now is.</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <svg viewBox="0 0 640 190" role="img" aria-label="Two stacked bars comparing where an engineering week goes: in 2023, typing dominates; in 2026, deciding, reviewing and verifying dominate while typing shrinks.">
+          <text x="0" y="16" class="dtb">Where my week goes</text>
+          <text x="640" y="16" text-anchor="end" class="dts">illustrative, not timesheets</text>
+
+          <text x="0" y="53" class="dt">2023</text>
+          <rect x="60" y="38" width="330" height="22" class="dbarB"/>
+          <rect x="390" y="38" width="80" height="22" class="dbarA"/>
+          <rect x="470" y="38" width="80" height="22" class="dbarA2"/>
+          <rect x="550" y="38" width="50" height="22" class="dbarC"/>
+          <text x="70" y="53" class="dts">typing code</text>
+          <text x="398" y="53" class="don">deciding</text>
+          <text x="478" y="53" class="dink">reviewing</text>
+
+          <text x="0" y="105" class="dt">2026</text>
+          <rect x="60" y="90" width="55" height="22" class="dbarB"/>
+          <rect x="115" y="90" width="185" height="22" class="dbarA"/>
+          <rect x="300" y="90" width="195" height="22" class="dbarA2"/>
+          <rect x="495" y="90" width="105" height="22" class="dbarC"/>
+          <text x="125" y="105" class="don">deciding &amp; planning</text>
+          <text x="310" y="105" class="dink">reviewing diffs &amp; findings</text>
+          <text x="503" y="105" class="dts">verifying</text>
+
+          <line x1="60" y1="130" x2="60" y2="136" class="dln"/>
+          <line x1="600" y1="130" x2="600" y2="136" class="dln"/>
+          <line x1="60" y1="133" x2="600" y2="133" class="dln"/>
+          <text x="330" y="152" text-anchor="middle" class="dts">one working week</text>
+
+          <rect x="60" y="166" width="12" height="12" class="dbarB"/><text x="78" y="176" class="dts">typing</text>
+          <rect x="150" y="166" width="12" height="12" class="dbarA"/><text x="168" y="176" class="dts">deciding</text>
+          <rect x="250" y="166" width="12" height="12" class="dbarA2"/><text x="268" y="176" class="dts">reviewing</text>
+          <rect x="360" y="166" width="12" height="12" class="dbarC"/><text x="378" y="176" class="dts">verifying</text>
+        </svg>
+      </div>
+      <figcaption>The bottleneck moved from typing to judgement. The guardrails I build live where the judgement is &mdash; on decisions, review and verification, not on code generation.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p>That realisation produced the two systems I now run every working day: <a href="/projects/ai-light-factory">AI Light Factory</a> on the build side, and <a href="/projects/three-pass-review">Three-Pass Review</a> on the review side. Both are open source. What follows is how they fit together into one working day.</p>
+    </div>
+  </div>
+</section>
 
 </article>
 
