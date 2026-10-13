@@ -487,6 +487,67 @@
   </div>
 </section>
 
+<section id="day">
+  <div class="wrap reveal">
+    <div class="eyebrow">A working day</div>
+    <h2>Mornings are for decisions. Agents get the afternoon.</h2>
+    <div class="prose">
+      <p>In practice the line gives my day a rhythm. Decisions, plans and tickets happen while I&rsquo;m sharpest. Then the dev loop runs unattended while I do the work only I can do &mdash; architecture conversations, mentoring, the odd production question. Late in the day I come back, read what needs me, and merge.</p>
+    </div>
+
+    <figure class="plate">
+      <div class="scroll">
+        <svg viewBox="0 0 760 210" role="img" aria-label="Two swimlanes across a working day: I decide and plan in the morning, approve the plan, do deep work midday while agents run the dev loop in parallel, then read diffs and merge late afternoon.">
+          <defs>
+            <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <text x="90" y="16" text-anchor="middle" class="dts">9:00</text>
+          <text x="312" y="16" text-anchor="middle" class="dts">11:00</text>
+          <text x="532" y="16" text-anchor="middle" class="dts">16:00</text>
+          <text x="730" y="16" text-anchor="middle" class="dts">18:00</text>
+          <line x1="90" y1="24" x2="90" y2="196" class="dlns"/>
+          <line x1="312" y1="24" x2="312" y2="196" class="dlns"/>
+          <line x1="532" y1="24" x2="532" y2="196" class="dlns"/>
+          <line x1="730" y1="24" x2="730" y2="196" class="dlns"/>
+
+          <text x="10" y="64" class="dtb">Me</text>
+          <rect x="90" y="40" width="222" height="40" rx="4" class="dp"/>
+          <text x="201" y="57" text-anchor="middle" class="dt">decide &middot; plan &middot; tickets</text>
+          <text x="201" y="72" text-anchor="middle" class="dts">PRD, ADRs, approve the plan</text>
+
+          <rect x="332" y="40" width="200" height="40" rx="4" class="db"/>
+          <text x="432" y="57" text-anchor="middle" class="dt">deep work elsewhere</text>
+          <text x="432" y="72" text-anchor="middle" class="dts">glance at the board, nothing else</text>
+
+          <rect x="532" y="40" width="198" height="40" rx="4" class="dp"/>
+          <text x="631" y="57" text-anchor="middle" class="dt">read diffs &middot; judge &middot; merge</text>
+          <text x="631" y="72" text-anchor="middle" class="dts">parked lanes first</text>
+
+          <path d="M312 60 l8 8 l-8 8 l-8 -8 z" class="dac"/>
+          <text x="312" y="100" text-anchor="middle" class="dta">plan approved</text>
+
+          <text x="10" y="152" class="dtb">Agents</text>
+          <rect x="312" y="124" width="220" height="48" rx="4" class="dag"/>
+          <text x="422" y="142" text-anchor="middle" class="dt">dev loop &middot; 2 lanes</text>
+          <text x="422" y="158" text-anchor="middle" class="dts">Claude builds → Codex reviews</text>
+
+          <rect x="532" y="124" width="198" height="48" rx="4" class="dag"/>
+          <text x="631" y="142" text-anchor="middle" class="dt">Guardian sweeps</text>
+          <text x="631" y="158" text-anchor="middle" class="dts">answers threads, rebases stacks</text>
+
+          <line x1="320" y1="104" x2="320" y2="122" class="dln" marker-end="url(#ar2)"/>
+          <line x1="540" y1="122" x2="540" y2="82" class="dln" marker-end="url(#ar2)"/>
+          <text x="548" y="106" class="dts">drafts land for me</text>
+        </svg>
+      </div>
+      <figcaption>One day on the line. The dev loop never asks me a question mid-run &mdash; any question it would want to ask is an upstream defect, recorded on the ticket while the run carries on.</figcaption>
+    </figure>
+  </div>
+</section>
+
 </article>
 
 <footer>
