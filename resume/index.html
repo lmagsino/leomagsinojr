@@ -219,6 +219,33 @@
     padding:var(--s1) var(--s2);
   }
 
+  /* ---------- EXPERIENCE ---------- */
+  .when{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    color:var(--ink-dim);
+  }
+  .badge{
+    display:block;
+    margin-top:var(--s1);
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .job h3{
+    font-size:var(--t-title);
+    font-weight:600;
+    letter-spacing:-0.004em;
+    line-height:1.3;
+  }
+  .job .co{color:var(--ink-dim);}
+  .job ul{margin-top:var(--s3); padding-left:var(--s6);}
+  .job li + li{margin-top:var(--s2);}
+  .job li::marker{color:var(--accent);}
+  .job{padding:var(--s6) 0;}
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -348,6 +375,68 @@
       <div class="rail"><div class="rail-label">Databases</div><div class="rail-body">PostgreSQL, MongoDB, MySQL, DynamoDB</div></div>
       <div class="rail"><div class="rail-label">Cloud &amp; DevOps</div><div class="rail-body">AWS (Lambda, EC2, S3, RDS, CloudWatch), Docker, GitHub Actions</div></div>
       <div class="rail"><div class="rail-label">Observability</div><div class="rail-body">Sentry, New Relic, Datadog</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap reveal">
+    <div class="eyebrow">Experience</div>
+    <h2>Where I&rsquo;ve shipped</h2>
+    <div class="rails">
+
+      <div class="rail job">
+        <div class="rail-label"><span class="when">Nov 2024 &ndash; Present</span></div>
+        <div class="rail-body">
+          <h3>Software Engineer</h3>
+          <div class="co">ShiftCare Pty. Ltd.</div>
+          <ul>
+            <li>Spearheaded ShiftCare&rsquo;s software factory: an autonomous, agent-driven workflow (Claude Code, Codex, Orca) that takes work from spec to implementation, tests, and pull request, enabling a 40-person engineering team to deliver the output of roughly 200 engineers</li>
+            <li>Built and maintain an MCP server used by customers and internal staff to access ShiftCare data and workflows through AI assistants</li>
+            <li>Product owner for the EVV (Electronic Visit Verification) product; owns the Sandata and HHAeXchange EVV integrations that keep US agencies compliant with state Medicaid requirements</li>
+            <li>Build scheduling and care-coordination features for home care and disability agencies using Ruby on Rails and Vue.js</li>
+            <li>Develop serverless microservices in Node.js on AWS Lambda and contribute to the React Native mobile app</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rail job">
+        <div class="rail-label"><span class="when">Mar 2024 &ndash; Nov 2024</span></div>
+        <div class="rail-body">
+          <h3>Software Engineer</h3>
+          <div class="co">Stacktrek Enterprise, Inc. (PayMongo, YC S19)</div>
+          <ul>
+            <li>Integrated QR PH, bringing cashless payments to thousands of merchants across the Philippines</li>
+            <li>Built dashboard features and payment logic full-stack with Ruby on Rails and React</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rail job">
+        <div class="rail-label"><span class="when">Oct 2023 &ndash; Mar 2024</span></div>
+        <div class="rail-body">
+          <h3>Senior Backend Engineer</h3>
+          <div class="co">BeanLab, Inc. (Edamama)</div>
+          <ul>
+            <li>Led design, development, and maintenance of backend infrastructure for an e-commerce platform in Node.js</li>
+            <li>Re-architected and optimized the MongoDB database, cutting average API response time from ~800&nbsp;ms to ~200&nbsp;ms (75% faster) while improving reliability and security</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rail job">
+        <div class="rail-label"><span class="when">Apr 2022 &ndash; Oct 2023</span></div>
+        <div class="rail-body">
+          <h3>Senior Software Engineer</h3>
+          <div class="co">Stratpoint Global Outsourcing Inc.</div>
+          <ul>
+            <li>Led a team building mobile and web apps that automate service fulfillment for an enterprise telco client on AWS (Lambda, S3, EC2, RDS)</li>
+            <li>Modernized a legacy system to Node.js and MongoDB</li>
+            <li>Appointed Head of Data for the web capability team; mentored developers at all levels</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
