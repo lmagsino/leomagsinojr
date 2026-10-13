@@ -187,6 +187,38 @@
     margin-bottom:var(--s6);
   }
 
+  /* ---------- RAIL: label on the left, content on the right ---------- */
+  .lead{
+    max-width:var(--measure);
+    font-size:var(--t-lead);
+    font-variation-settings:'opsz' 18;
+  }
+  .rail{
+    display:grid;
+    grid-template-columns:200px minmax(0, 1fr);
+    column-gap:var(--s8);
+    padding:var(--s4) 0;
+    border-top:1px solid var(--line);
+  }
+  .rail:last-child{border-bottom:1px solid var(--line);}
+  .rail-label{
+    padding-top:3px;
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-micro);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+  .rail-body{max-width:var(--measure); color:var(--ink);}
+  .chips{display:flex; flex-wrap:wrap; gap:var(--s2);}
+  .chips span{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-size:var(--t-meta);
+    border:1px solid var(--line-strong);
+    background:var(--paper-raised);
+    padding:var(--s1) var(--s2);
+  }
+
   /* ---------- FOOTER ---------- */
   footer{padding:var(--s16) 0 var(--s12);}
   footer .close-line{
@@ -229,6 +261,7 @@
     .stat + .stat{padding-left:0;}
     .stat:last-child{border-bottom:none;}
     main section{padding:var(--s12) 0;}
+    .rail{grid-template-columns:1fr; row-gap:var(--s2);}
   }
 
   a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
@@ -279,6 +312,45 @@
 </header>
 
 <main>
+
+<section id="summary">
+  <div class="wrap reveal">
+    <div class="eyebrow">Summary</div>
+    <h2>Builds products with AI</h2>
+    <p class="lead">Software engineer with 13+ years of experience building products across fintech, healthtech, and e-commerce, including three times as a founding engineer. Strong backend depth in Ruby on Rails, Node.js, and Java, with full-stack delivery in React, Vue.js, and React Native. Works AI-first day to day, building and shipping through autonomous AI agent workflows with Claude Code, Codex, and Orca, and building MCP servers that connect AI to production systems.</p>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap reveal">
+    <div class="eyebrow">AI &amp; agentic development</div>
+    <h2>How I ship now</h2>
+    <div class="rails">
+      <div class="rail">
+        <div class="rail-label">Tools</div>
+        <div class="rail-body chips"><span>Claude Code</span><span>OpenAI Codex</span><span>Orca &middot; agentic dev environment</span><span>GitHub Copilot</span></div>
+      </div>
+      <div class="rail">
+        <div class="rail-label">Practices</div>
+        <div class="rail-body chips"><span>Autonomous agent workflows &middot; spec to tested PR</span><span>MCP servers</span><span>Prompt &amp; context engineering</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap reveal">
+    <div class="eyebrow">Technical skills</div>
+    <h2>The stack</h2>
+    <div class="rails">
+      <div class="rail"><div class="rail-label">Backend</div><div class="rail-body">Ruby on Rails, Node.js, TypeScript, Java (Spring Boot), Python, Express.js</div></div>
+      <div class="rail"><div class="rail-label">Frontend &amp; Mobile</div><div class="rail-body">React, Vue.js, React Native, Swift</div></div>
+      <div class="rail"><div class="rail-label">Databases</div><div class="rail-body">PostgreSQL, MongoDB, MySQL, DynamoDB</div></div>
+      <div class="rail"><div class="rail-label">Cloud &amp; DevOps</div><div class="rail-body">AWS (Lambda, EC2, S3, RDS, CloudWatch), Docker, GitHub Actions</div></div>
+      <div class="rail"><div class="rail-label">Observability</div><div class="rail-body">Sentry, New Relic, Datadog</div></div>
+    </div>
+  </div>
+</section>
 
 </main>
 
