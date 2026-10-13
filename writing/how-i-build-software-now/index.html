@@ -195,6 +195,9 @@
     margin-top:var(--s8);
     margin-bottom:var(--s2);
   }
+  .prose ul{margin:var(--s4) 0; padding-left:var(--s6);}
+  .prose ul li + li{margin-top:var(--s3);}
+  .prose ul li::marker{color:var(--accent);}
   .prose strong{font-weight:600;}
   .prose em{font-style:italic;}
   .prose a{color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px;}
@@ -832,6 +835,24 @@ SWEEP  T2.2 #70 Export job         #76 9ae02b4  Guardian     1 bot thread       
     <div class="prose">
       <p>Pass 3 is my favourite part, because it fixes the real problem with AI review: even a good one hands the human a pile of comments. On a big, risky change, what a reviewer needs first is the <em>shape</em> of it. So the deep pass opens with a <strong>reviewer brief</strong>, built to be read in five minutes before anyone opens the code: what the change does, a change map computed from the diff with no model at all, the blast radius, whether a plain revert undoes it, where to look first. Under the hood, three independent AI checks &mdash; correctness, security and data safety, architecture &mdash; read one frozen input in parallel and never see each other&rsquo;s output, so when two of them flag the same lines on their own, that agreement is a signal rather than an echo.</p>
       <p>Then the code owner and a second reviewer take over. The draft says what the AI saw. The approval has to say what the person verified.</p>
+    </div>
+  </div>
+</section>
+
+<section id="toolbox">
+  <div class="wrap reveal">
+    <div class="eyebrow">The 2026 toolbox</div>
+    <h2>What changed under the hood this year</h2>
+    <div class="prose">
+      <p>None of this would have been practical in 2023. A few shifts in the tooling made it ordinary:</p>
+      <ul>
+        <li><strong>Agents became teammates with CLIs, not autocomplete.</strong> Claude Code, Codex and their peers run whole tickets in a terminal seat &mdash; plan, edit, test, open the PR. The craft moved from prompting to seat design: what each agent may touch, and what it must leave behind.</li>
+        <li><strong>Skills became a portable format.</strong> The open <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills</a> spec means a review discipline or a planning method is a <code>SKILL.md</code> file any agent can follow. My factory runs on published packs from Matt Pocock and Addy Osmani, used as they are &mdash; I only built what didn&rsquo;t exist: the loop, the gates, the guardrails.</li>
+        <li><strong>MCP became the wiring.</strong> The Model Context Protocol gives agents the same typed access to tools and data, whoever made the agent. It&rsquo;s how my side projects expose Strava data or Philippine payroll math to any client, and it&rsquo;s why a cross-vendor Reviewer seat is a config line rather than a science project.</li>
+        <li><strong>Multi-agent coordination went mainstream.</strong> The pattern Anthropic&rsquo;s 2026 trends report calls out &mdash; single agents becoming coordinated teams, with humans scaling oversight through AI-automated review &mdash; is exactly the orchestrator-and-seats shape of the dev loop, and exactly why review had to become a system of its own.</li>
+        <li><strong>Hooks made guardrails enforceable.</strong> Agent runtimes now expose pre-tool-use hooks and sandboxed execution, so &ldquo;never merge&rdquo; can be a refusal at the command layer instead of a plea in a prompt. That one capability is the difference between a light factory and a hopeful one.</li>
+      </ul>
+      <p>The number that keeps me honest, though, is also from that report: engineers lean on AI for most of their work, yet say they can <em>fully</em> delegate only a small slice of it. That gap &mdash; between &ldquo;AI did most of it&rdquo; and &ldquo;nobody checked it&rdquo; &mdash; is where my whole workflow lives.</p>
     </div>
   </div>
 </section>
