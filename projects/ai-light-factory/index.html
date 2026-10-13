@@ -654,7 +654,7 @@ DONE   T1.2 #59 Export schema     #58 77e01ab   -            draft, swept       
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
+  }, { threshold: 0 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 
